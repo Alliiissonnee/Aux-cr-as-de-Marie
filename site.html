@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Miranda+Sans:wght@700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="site.css">
+<body>
+    <header class="parallax-header">
+        <div class="parallax-bg" id="parallaxBg"></div>
+        <div class="parallax-overlay"></div>
+    </header>
+
+  <main>
+
+    <nav>
+  <button data-filter="bebe">Bébé</button>
+  <button data-filter="doudou">Doudou</button>
+  <button data-filter="tricot-couture">Tricot-couture</button>
+  <button data-filter="accessoires">Accessoires</button>
+  <button data-filter="all" class="active">Tout</button>
+  <input class="search" type="search" id="searchInput" placeholder="Rechercher">
+</nav>
+
+    <section class="titre">
+      <h1 id="parallaxTitle">Aux créas de Marie</h1>
+    </section>
+    <section class="cards-container">
+
+ <section class="card" data-name="Pieuvres crochet" data-category="bebe">
+    <img src="Photopieuvrescrochet.jpg" alt="PieuvresCrochet">
+    <article class="card-content">
+      <h3>Pieuvres</h3>
+      <p>Tout doux, fait main avec amour.</p>
+      <span class="card-price">18€</span>
+    </article>
+</section>
+
+<section class="card" data-name="Petits clowns" data-category="doudou">
+    <img src="Photoclowncrochet.jpg" alt="Clown">
+    <article class="card-content">
+      <h3>Petits clowns</h3>
+      <p>Les différents clowns</p>
+      <span class="card-price">22€</span>
+    </article>
+</section>
+
+<section class="card" data-name="Petit chien" data-category="doudou">
+    <img src="Petitchien.jpg" alt="Chien">
+    <article class="card-content">
+      <h3>Petit chien</h3>
+      <p>Mignon petit chien crochet</p>
+      <span class="card-price">8€</span>
+    </article>
+</section>
+
+<section class="card" data-name="Petit chat" data-category="doudou">
+    <img src="Petitchat.jpg" alt="Chat">
+    <article class="card-content">
+      <h3>Petit chat</h3>
+      <p>Mignon petit chat crochet</p>
+      <span class="card-price">8€</span>
+    </article>
+</section>
+
+<section class="card" data-name="Petit bouddha" data-category="doudou">
+    <img src="petitboudha.jpg" alt="bouddha">
+    <article class="card-content">
+      <h3>Petit bouddha</h3>
+      <p>Mignon petit bouddha</p>
+      <span class="card-price">8€</span>
+    </article>
+</section>
+
+<section class="card" data-name="Petit bouddha rose" data-category="bebe">
+    <img src="petitboudharose.jpg" alt="bouddha rose">
+    <article class="card-content">
+      <h3>Petit bouddha rose</h3>
+      <p>Mignon petit bouddha rose</p>
+      <span class="card-price">8€</span>
+    </article>
+</section>
+
+</section>
+
+  </main>
+  <script src="site.js"></script>
+</body>
+</html>
