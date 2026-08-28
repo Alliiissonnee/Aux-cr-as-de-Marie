@@ -1,0 +1,37 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: creas_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: auxcreasdemarie
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: creas_phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+
+  php:
+    image: php:8.2-apache
+    container_name: creas_php
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./www:/var/www/html
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
