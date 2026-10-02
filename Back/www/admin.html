@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aux créas de Marie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Miranda+Sans:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+
+<body>
+    <header class="parallax-header">
+        <div class="parallax-bg" id="parallaxBg"></div>
+        <div class="parallax-overlay"></div>
+    </header>
+
+  <main>
+
+    <nav>
+  <button id="deconnexion_admin"><img src="media/cadenas.png" alt="deconnexion admin"></button>
+    </nav>
+
+    <section class="titre">
+      <h1 id="parallaxTitle">Aux créas de Marie</h1>
+    </section>
+    
+    <section class="cards-container"></section>
+
+  </main>
+  <div id="editModal" class="modal hidden">
+  <div class="modal-content">
+    <form id="editForm">
+      <input type="hidden" name="id">
+      <input type="file" name="image">
+      <input type="text" name="name">
+      <input type="text" name="description">
+      <input type="text" name="price">
+      <select name="category">
+        <option value="bebe">Bébé</option>
+        <option value="doudou">Doudou</option>
+        <option value="tricot-couture">Tricot-couture</option>
+        <option value="accessoires">Accessoires</option>
+      </select>
+      <button type="submit">Valider</button>
+      <button type="button" id="closeModal">Annuler</button>
+    </form>
+  </div>
+</div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

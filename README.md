@@ -1,70 +1,98 @@
 # 🧶 Aux créas de Marie
 
-Site vitrine réalisé pour une amie afin de présenter ses créations artisanales et mettre en valeur son univers créatif.
+Site réalisé pour une amie afin de présenter et vendre ses créations artisanales faites main.
 
 ## ✨ Présentation
 
-**Aux créas de Marie** est un site web conçu pour présenter différentes créations réalisées à la main.
+**Aux créas de Marie** a démarré comme un simple site vitrine, et évolue progressivement vers un véritable site e-commerce.
 
-L'objectif était de créer une vitrine simple, chaleureuse et visuelle permettant de découvrir les créations à travers une galerie d'images.
+L'objectif est de proposer une boutique en ligne simple, chaleureuse et visuelle, permettant à Marie de gérer elle-même ses créations (ajout, modification, suppression) et à ses clientes de les découvrir et, bientôt, de les commander.
 
-Ce projet a été réalisé bénévolement dans un cadre personnel, avec une attention particulière portée à la présentation des créations et à l'expérience de navigation.
+Ce projet est réalisé bénévolement dans un cadre personnel, avec une attention particulière portée à la présentation des créations et à l'expérience de navigation.
+
+## 📸 Aperçu
+
+<!-- Captures d'écran à ajouter : accueil (desktop + mobile), interface admin, page de connexion -->
 
 ## 🎨 Fonctionnalités
 
+**Côté site public**
 * 🏠 Page d'accueil présentant l'univers de la créatrice
-* 🧶 Présentation des créations artisanales
-* 🖼️ Galerie de photos
-* 📱 Interface pensée pour être consultée sur différents supports
-* ✨ Design simple et chaleureux
-* ⚡ Interactions et éléments dynamiques en JavaScript
+* 🧶 Galerie de créations, chargée dynamiquement depuis la base de données
+* 🔍 Recherche et filtre par catégorie
+* 📱 Interface responsive (menu burger sur mobile)
+* ✨ Design simple et chaleureux, avec effet de parallax
+
+**Côté administration (réservé à Marie)**
+* 🔐 Connexion sécurisée (sessions PHP, mots de passe hashés)
+* ➕ Ajout d'une création (avec image, nom, description, prix, catégorie)
+* ✏️ Modification d'une création existante
+* 🗑️ Suppression d'une création
+
+**À venir**
+* 🎨 Demandes de personnalisation
+* 💳 Paiement en ligne
+* 📦 Suivi des commandes (API Okapi / Colissimo de La Poste)
+* 📊 Statistiques de vente
+* 🚚 Gestion de la livraison
+* 📈 Google Analytics / Google Tag Manager
 
 ## 🛠️ Technologies utilisées
 
-* **HTML5** — Structure des pages
-* **CSS3** — Mise en forme et responsive design
-* **JavaScript** — Interactions et dynamisme
-* **Git / GitHub** — Gestion et versionnement du projet
+* **HTML5 / CSS3 / JavaScript** — structure, mise en forme responsive, interactions côté client
+* **PHP 8.2** — logique serveur et API (authentification, gestion des créations)
+* **MySQL 8** — base de données
+* **Docker / Docker Compose** — environnement de développement (PHP + Apache, MySQL, phpMyAdmin)
+* **Git / GitHub** — gestion et versionnement du projet
 
 ## 📁 Structure du projet
 
 ```text
 Aux-cr-as-de-Marie/
 │
-├── site.html
-├── site.css
-├── site.js
+├── Back/
+│   ├── docker-compose.yml       # Définit les services : mysql, phpmyadmin, php
+│   ├── Dockerfile               # Image PHP personnalisée (ajout de l'extension pdo_mysql)
+│   ├── docs/
+│   │   └── create_admin.txt     # Script ponctuel pour créer le premier compte admin
+│   └── www/                     # Racine servie par le serveur PHP (localhost:8000)
+│       ├── site.html / site.css / site.js   # Site public
+│       ├── admin.html / admin.js            # Interface d'administration
+│       ├── login.html / login.php           # Connexion admin
+│       ├── logout.php                       # Déconnexion
+│       ├── config.php                       # Connexion à la base de données
+│       ├── admin_check.php                  # Vérifie qu'un admin est bien connecté
+│       ├── cards.php                        # Liste des créations (JSON)
+│       ├── add_card.php / edit_card.php / delete_card.php   # CRUD des créations
+│       ├── media/                           # Images statiques du site (fond, logo...)
+│       └── uploads/                         # Images des créations, ajoutées via l'admin
 │
-├── 20260406_143336.jpg.jpeg
-├── 20260406_143452.jpg.jpeg
-├── Petitchat.jpg
-├── Petitchien.jpg
-├── Photoclowncrochet.jpg
-├── Photopieuvrescrochet.jpg
-├── petitboudha.jpg
-└── petitboudharose.jpg
+└── README.md
 ```
-
-## 💡 Contexte du projet
-
-Ce site a été développé dans le cadre d'un **projet personnel**, à la demande d'une amie souhaitant disposer d'une présence en ligne pour présenter ses créations.
-
-Ce projet m'a permis de travailler notamment sur :
-
-* la conception d'une interface adaptée à un besoin réel ;
-* la mise en valeur de contenus visuels ;
-* l'organisation d'une galerie ;
-* le développement front-end en HTML, CSS et JavaScript ;
-* l'adaptation du design à l'identité du projet.
 
 ## 🚀 Installation
 
-Cloner le dépôt :
+Le projet tourne via Docker. Prérequis : [Docker](https://www.docker.com/) installé.
 
 ```bash
 git clone https://github.com/Alliiissonnee/Aux-cr-as-de-Marie.git
+cd Aux-cr-as-de-Marie/Back
+docker compose up -d
 ```
 
-Puis ouvrir `site.html` dans un navigateur.
+Le site est alors accessible sur [http://localhost:8000/site.html](http://localhost:8000/site.html), et phpMyAdmin sur [http://localhost:8081](http://localhost:8081) (identifiants MySQL dans `docker-compose.yml`).
 
-Aucune installation ou dépendance particulière n'est nécessaire.
+Pour créer le premier compte admin, adapter l'email/mot de passe dans `Back/docs/create_admin.txt` puis exécuter son contenu (par exemple via un fichier PHP temporaire ou phpMyAdmin), avant de se connecter sur [http://localhost:8000/login.html](http://localhost:8000/login.html).
+
+## 💡 Contexte du projet
+
+Ce site est développé dans le cadre d'un **projet personnel**, à la demande d'une amie souhaitant vendre ses créations en ligne.
+
+Ce projet me permet de travailler notamment sur :
+
+* la conception d'une interface adaptée à un besoin réel ;
+* le développement front-end (HTML, CSS, JavaScript) et back-end (PHP, MySQL) ;
+* la mise en place d'une authentification et d'un espace d'administration ;
+* la consommation d'une API JSON maison depuis le front (fetch, rendu dynamique) ;
+* l'utilisation de Docker pour un environnement de développement reproductible ;
+* l'intégration progressive de fonctionnalités e-commerce (paiement, livraison, suivi).

@@ -19,12 +19,16 @@
   <main>
 
     <nav>
-  <button data-filter="bebe">Bébé</button>
-  <button data-filter="doudou">Doudou</button>
-  <button data-filter="tricot-couture">Tricot-couture</button>
-  <button data-filter="accessoires">Accessoires</button>
-  <button data-filter="all" class="active">Tout</button>
-  <input class="search" type="search" id="searchInput" placeholder="Rechercher">
+  <button id="burgerToggle" class="burger-toggle" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+  <div class="nav-links" id="navLinks">
+    <button data-filter="bebe">Bébé</button>
+    <button data-filter="doudou">Doudou</button>
+    <button data-filter="tricot-couture">Tricot-couture</button>
+    <button data-filter="accessoires">Accessoires</button>
+    <button data-filter="all" class="active">Tout</button>
+    <input class="search" type="search" id="searchInput" placeholder="Rechercher">
+  </div>
+  <button id="connexion_admin"><img src="media/cadenas.png" alt="Connexion admin"></button>
 </nav>
 
     <section class="titre">
@@ -34,7 +38,7 @@
     
     <section class="cards-container">
 
- <section class="card" data-name="Pieuvres crochet" data-category="bebe">
+ <!-- <section class="card" data-name="Pieuvres crochet" data-category="bebe">
     <img src="media/Photopieuvrescrochet.jpg" alt="PieuvresCrochet">
     <article class="card-content">
       <h3>Pieuvres</h3>
@@ -86,7 +90,7 @@
       <p>Mignon petit bouddha rose</p>
       <span class="card-price">8€</span>
     </article>
-</section>
+</section> -->
 
 </section>
 

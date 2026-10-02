@@ -1,3 +1,20 @@
+# Ce fichier décrit l'infrastructure de ton projet : quels "conteneurs" (environnements isolés) doivent tourner,
+#  et comment ils se parlent entre eux. Tu y définis 3 services :
+
+# mysql → ta base de données, avec ses identifiants et un stockage persistant (le volume) 
+# pour que tes données ne disparaissent pas à chaque redémarrage.
+
+# phpmyadmin → l'interface web pour gérer visuellement cette base, branchée automatiquement sur le service mysql.
+
+# php → l'environnement qui exécute ton code PHP et le sert dans le navigateur, 
+# avec ton dossier local www/ synchronisé dedans pour que tu puisses éditer tes fichiers normalement.
+
+# Chaque service a un port exposé différent (3306, 8081, 8000) pour que tu puisses les atteindre 
+# depuis ta machine sans qu'ils se marchent dessus, et depends_on sert juste à dire dans quel ordre les démarrer.
+
+# En résumé : ce fichier, c'est la "recette" qui dit à Docker "monte-moi ces 3 environnements, 
+# connecte-les ensemble, et rends-les accessibles à ces adresses-là".
+
 services:
   mysql:
     image: mysql:8.0
@@ -23,7 +40,7 @@ services:
       - mysql
 
   php:
-    image: php:8.2-apache
+    build: .
     container_name: creas_php
     restart: unless-stopped
     ports:

@@ -1,0 +1,12 @@
+// Fichier à supprimer / création du compte admin dans la base de donnée.
+require 'config.php';
+
+// Prépare une requête d'insertion, avec deux "cases réservées" nommées :email et :password_hash.
+$stmt = $pdo->prepare("INSERT INTO admin_users (email, password_hash) VALUES (:email, :password_hash)");
+// Transforme le mot de passe en clair 'test123' en un hash bcrypt à sens unique.
+$hash = password_hash('motdepasseclair', PASSWORD_DEFAULT);
+// Envoie les vraies valeurs à la place des placeholders, et exécute l'insertion 
+//  c'est ici que le hash (pas le mot de passe en clair) est réellement stocké en base.
+$stmt->execute(['email'=>'adresseemailchoisi@email.com', 'password_hash' => $hash]);
+
+echo "Compte admin créé !";
