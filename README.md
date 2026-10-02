@@ -12,7 +12,11 @@ Ce projet est réalisé bénévolement dans un cadre personnel, avec une attenti
 
 ## 📸 Aperçu
 
-<!-- Captures d'écran à ajouter : accueil (desktop + mobile), interface admin, page de connexion -->
+![Page d'accueil](docs-assets/accueil.png)
+
+![Page de connexion](docs-assets/connexion.png)
+
+<!-- Captures d'écran à ajouter : interface admin, version mobile -->
 
 ## 🎨 Fonctionnalités
 
