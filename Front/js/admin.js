@@ -1,4 +1,4 @@
-fetch('cards.php')
+fetch('api/cards.php')
   .then(response => response.json())
   .then(data => {
     const container = document.querySelector('.cards-container');
@@ -14,15 +14,17 @@ fetch('cards.php')
     </article>
   </section>
 `);
-container.innerHTML = cardsHTML.join('');
+    container.innerHTML = cardsHTML.join('');
 
-const deleteButtons = document.querySelectorAll('.btn-delete');
-deleteButtons.forEach(button => {
-  button.addEventListener('click', () => {
-    const card = button.closest('.card');
-    const id = card.dataset.id;
-    console.log(id);
-  });
-});
+    const deleteButtons = document.querySelectorAll('.btn-delete');
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const card = button.closest('.card');
+        const id = card.dataset.id;
+        const formData = new FormData();
+        formData.append('id', id);
+        fetch('api/delete_card.php', { method: 'POST', body: formData });
+      });
+    });
 
   });

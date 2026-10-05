@@ -2,7 +2,7 @@
 
 // Récupère la connexion $pdo.
 
-require 'config.php';
+require __DIR__ . '/config.php';
 
 // Prépare une requête SQL qui sélectionne toutes les colonnes de toutes les lignes de la table cards
 

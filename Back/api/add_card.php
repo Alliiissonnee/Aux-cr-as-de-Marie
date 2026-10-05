@@ -1,14 +1,14 @@
 <?php
 
-require 'admin_check.php';
-require 'config.php';
+require __DIR__ . '/admin_check.php';
+require __DIR__ . '/config.php';
 
 $name = $_POST['name'];
 $description = $_POST['description'];
 $price = $_POST['price'];
 $category = $_POST['category'];
 
-if (move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $_FILES['image']['name'])) {
+if (move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../uploads/' . $_FILES['image']['name'])) {
     echo "L'image a bien été envoyé";
 } else {
     die ("L'image n'est pas passée");

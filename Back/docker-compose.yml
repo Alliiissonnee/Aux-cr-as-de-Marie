@@ -7,9 +7,9 @@
 # phpmyadmin → l'interface web pour gérer visuellement cette base, branchée automatiquement sur le service mysql.
 
 # php → l'environnement qui exécute ton code PHP et le sert dans le navigateur, 
-# avec ton dossier local www/ synchronisé dedans pour que tu puisses éditer tes fichiers normalement.
+# avec tes dossiers locaux Front/, api/ et uploads/ synchronisés dedans pour que tu puisses éditer tes fichiers normalement.
 
-# Chaque service a un port exposé différent (3306, 8081, 8000) pour que tu puisses les atteindre 
+# Chaque service a un port exposé différent (3306, 8082, 8000) pour que tu puisses les atteindre 
 # depuis ta machine sans qu'ils se marchent dessus, et depends_on sert juste à dire dans quel ordre les démarrer.
 
 # En résumé : ce fichier, c'est la "recette" qui dit à Docker "monte-moi ces 3 environnements, 
@@ -27,6 +27,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   phpmyadmin:
     image: phpmyadmin:latest
@@ -35,7 +36,7 @@ services:
     environment:
       PMA_HOST: mysql
     ports:
-      - "8081:80"
+      - "8082:80"
     depends_on:
       - mysql
 
@@ -46,7 +47,11 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./www:/var/www/html
+      # Le front (HTML/CSS/JS/media) est la racine du site,
+      # le back (API PHP et images uploadées) est branché dans les sous-dossiers api/ et uploads/.
+      - ../Front:/var/www/html
+      - ./api:/var/www/html/api
+      - ./uploads:/var/www/html/uploads
     depends_on:
       - mysql
 

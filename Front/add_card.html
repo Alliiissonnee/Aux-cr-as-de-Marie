@@ -7,12 +7,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Miranda+Sans:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="css/site.css">
 </head>
 
 <body>
-<form action="edit_card.php" method="POST" enctype="multipart/form-data">
-    <input type="text" name="id">
+<form action="api/add_card.php" method="POST" enctype="multipart/form-data">
     <input type="file" name="image">
     <input type="text" name="name">
     <input type="text" name="description">
@@ -23,10 +22,10 @@
          <option value="tricot-couture">Tricot-couture</option>
          <option value="accessoires">Accessoires</option>
     </select>
-    <button type="submit"> Modifier </button>
+    <button type="submit"> Ajouter </button>
 </form>
 
 
-<script src="site.js"></script>
+<script src="js/site.js"></script>
 </body>
 </html>

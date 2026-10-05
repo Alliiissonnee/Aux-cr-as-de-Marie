@@ -5,7 +5,7 @@
 session_start();
 
 // Récupère $pdo.
-require 'config.php';
+require __DIR__ . '/config.php';
 
 //Recupération email et MDP
 $email = $_POST['email'];
@@ -17,7 +17,7 @@ $stmt = $pdo->prepare("SELECT * FROM admin_users WHERE email = :email");
 $stmt->execute(['email' => $email]);
 $ligne = $stmt->fetch();  
 
-// Compare le mot de passe tapé en clair avec le hash stocké en base — sans jamais "décoder" ce hash,
+// Compare le mot de passe tapé en clair avec le hash stocké en base, sans jamais "décoder" ce hash,
 //  juste en le recalculant et en comparant.
 if (password_verify($password, $ligne['password_hash'])) {
     // Si ça correspond : message de confirmation, et surtout on enregistre l'id de l'admin dans la session

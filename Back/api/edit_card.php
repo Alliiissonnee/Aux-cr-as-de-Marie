@@ -1,7 +1,7 @@
 <?php
 
-require 'admin_check.php';
-require 'config.php';
+require __DIR__ . '/admin_check.php';
+require __DIR__ . '/config.php';
 
 $id = $_POST['id'];
 $name = $_POST['name'];
@@ -15,10 +15,10 @@ $stmt->execute(['id' => $id]);
 $ligne = $stmt->fetch();
 
 if ($_FILES['image']['tmp_name'] !== '') {
-    move_uploaded_file($_FILES['image']['tmp_name'], 'uploads/' . $_FILES['image']['name']);
+    move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../uploads/' . $_FILES['image']['name']);
     $image = $_FILES['image']['name'];
-    if (file_exists('uploads/' . $ligne['image'])) {
-        unlink ('uploads/' . $ligne['image']);
+    if (file_exists(__DIR__ . '/../uploads/' . $ligne['image'])) {
+        unlink (__DIR__ . '/../uploads/' . $ligne['image']);
     }
 } else {
     $image = $ligne['image'];

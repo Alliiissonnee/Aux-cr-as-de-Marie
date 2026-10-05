@@ -54,22 +54,29 @@ Ce projet est réalisé bénévolement dans un cadre personnel, avec une attenti
 ```text
 Aux-cr-as-de-Marie/
 │
-├── Back/
+├── Front/                       # Tout ce qui s'affiche dans le navigateur
+│   ├── site.html                # Site public
+│   ├── admin.html               # Interface d'administration
+│   ├── login.html               # Page de connexion admin
+│   ├── add_card.html / edit_card.html / delete_card.html   # Formulaires de gestion des créations
+│   ├── css/site.css             # Styles
+│   ├── js/site.js               # Galerie, recherche, filtres, parallax, menu burger
+│   ├── js/admin.js              # Galerie côté admin
+│   └── media/                   # Images statiques du site (fond, logo...)
+│
+├── Back/                        # Serveur, API et base de données
 │   ├── docker-compose.yml       # Définit les services : mysql, phpmyadmin, php
 │   ├── Dockerfile               # Image PHP personnalisée (ajout de l'extension pdo_mysql)
+│   ├── init.sql                 # Création des tables (exécuté au premier démarrage de MySQL)
 │   ├── docs/
 │   │   └── create_admin.txt     # Script ponctuel pour créer le premier compte admin
-│   └── www/                     # Racine servie par le serveur PHP (localhost:8000)
-│       ├── site.html / site.css / site.js   # Site public
-│       ├── admin.html / admin.js            # Interface d'administration
-│       ├── login.html / login.php           # Connexion admin
-│       ├── logout.php                       # Déconnexion
-│       ├── config.php                       # Connexion à la base de données
-│       ├── admin_check.php                  # Vérifie qu'un admin est bien connecté
-│       ├── cards.php                        # Liste des créations (JSON)
-│       ├── add_card.php / edit_card.php / delete_card.php   # CRUD des créations
-│       ├── media/                           # Images statiques du site (fond, logo...)
-│       └── uploads/                         # Images des créations, ajoutées via l'admin
+│   ├── api/                     # API PHP, appelée par le front via /api/...
+│   │   ├── config.php           # Connexion à la base de données
+│   │   ├── login.php / logout.php   # Connexion / déconnexion admin
+│   │   ├── admin_check.php      # Vérifie qu'un admin est bien connecté
+│   │   ├── cards.php            # Liste des créations (JSON)
+│   │   └── add_card.php / edit_card.php / delete_card.php   # CRUD des créations
+│   └── uploads/                 # Images des créations, ajoutées via l'admin
 │
 └── README.md
 ```
@@ -81,10 +88,12 @@ Le projet tourne via Docker. Prérequis : [Docker](https://www.docker.com/) inst
 ```bash
 git clone https://github.com/Alliiissonnee/Aux-cr-as-de-Marie.git
 cd Aux-cr-as-de-Marie/Back
-docker compose up -d
+docker compose up -d --build
 ```
 
-Le site est alors accessible sur [http://localhost:8000/site.html](http://localhost:8000/site.html), et phpMyAdmin sur [http://localhost:8081](http://localhost:8081) (identifiants MySQL dans `docker-compose.yml`).
+Docker sert le dossier `Front/` comme racine du site, avec `Back/api/` et `Back/uploads/` branchés dessus. Les tables sont créées automatiquement à partir de `Back/init.sql` au premier démarrage.
+
+Le site est alors accessible sur [http://localhost:8000/site.html](http://localhost:8000/site.html), et phpMyAdmin sur [http://localhost:8082](http://localhost:8082) (identifiants MySQL dans `docker-compose.yml`).
 
 Pour créer le premier compte admin, adapter l'email/mot de passe dans `Back/docs/create_admin.txt` puis exécuter son contenu (par exemple via un fichier PHP temporaire ou phpMyAdmin), avant de se connecter sur [http://localhost:8000/login.html](http://localhost:8000/login.html).
 

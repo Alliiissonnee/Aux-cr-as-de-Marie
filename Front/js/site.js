@@ -1,4 +1,4 @@
-fetch('cards.php')
+fetch('api/cards.php')
   .then(response => response.json())
   .then(data => {
     const container = document.querySelector('.cards-container');
