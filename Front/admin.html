@@ -1,42 +1,44 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aux créas de Marie</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Miranda+Sans:wght@700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aux créas de Marie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Miranda+Sans:wght@700&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/site.css">
 </head>
 
 <body>
-    <header class="parallax-header">
-        <div class="parallax-bg" id="parallaxBg"></div>
-        <div class="parallax-overlay"></div>
-    </header>
+  <header class="parallax-header">
+    <div class="parallax-bg" id="parallaxBg"></div>
+    <div class="parallax-overlay"></div>
+  </header>
 
   <main>
 
     <nav>
-  <button id="deconnexion_admin"><img src="media/cadenas.png" alt="deconnexion admin"></button>
+      <button id="openAddModal" type="button">Ajouter une création</button>
+      <button id="deconnexion_admin"><img src="media/cadenas.png" alt="deconnexion admin"></button>
     </nav>
 
     <section class="titre">
-      <h1 id="parallaxTitle">Aux créas de Marie</h1>
+      <h1 id="parallaxTitle">Bienvenue Marie</h1>
     </section>
-    
+
     <section class="cards-container"></section>
 
   </main>
-  <div id="editModal" class="modal hidden">
-  <div class="modal-content">
+  <dialog id="editModal" class="modal-content">
     <form id="editForm">
       <input type="hidden" name="id">
       <input type="file" name="image">
-      <input type="text" name="name">
-      <input type="text" name="description">
-      <input type="text" name="price">
+      <input type="text" name="name" placeholder="Titre">
+      <input type="text" name="description" placeholder="Description">
+      <input type="number" step="0.01" min="0" name="price" placeholder="Prix">
       <select name="category">
         <option value="bebe">Bébé</option>
         <option value="doudou">Doudou</option>
@@ -44,11 +46,35 @@
         <option value="accessoires">Accessoires</option>
       </select>
       <button type="submit">Valider</button>
-      <button type="button" id="closeModal">Annuler</button>
+      <button type="button" id="closeModal" class="btn-cancel">Annuler</button>
     </form>
-  </div>
-</div>
+  </dialog>
+
+  <dialog id="addModal" class="modal-content">
+    <form id="addForm">
+      <input type="file" name="image" required>
+      <input type="text" name="name" placeholder="Titre" required>
+      <input type="text" name="description" placeholder="Description" required>
+      <input type="number" step="0.01" min="0" name="price" placeholder="Prix" required>
+      <select name="category">
+        <option value="bebe">Bébé</option>
+        <option value="doudou">Doudou</option>
+        <option value="tricot-couture">Tricot-couture</option>
+        <option value="accessoires">Accessoires</option>
+      </select>
+      <button type="submit">Ajouter</button>
+      <button type="button" id="cancelAdd" class="btn-cancel">Annuler</button>
+    </form>
+  </dialog>
+
+  <dialog id="deleteModal" class="modal-content">
+    <p>Êtes-vous sûre de vouloir supprimer cette création ?</p>
+    <button id="cancelDelete" type="button" class="btn-cancel">Annuler</button>
+    <button id="confirmDelete" type="button" class="btn-danger">Supprimer</button>
+  </dialog>
+
 
   <script src="js/admin.js"></script>
 </body>
+
 </html>

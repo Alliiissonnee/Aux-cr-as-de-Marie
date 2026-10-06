@@ -58,10 +58,10 @@ Aux-cr-as-de-Marie/
 │   ├── site.html                # Site public
 │   ├── admin.html               # Interface d'administration
 │   ├── login.html               # Page de connexion admin
-│   ├── add_card.html / edit_card.html / delete_card.html   # Formulaires de gestion des créations
+│   ├── (les formulaires d'ajout / modification / suppression sont des modales dans admin.html)
 │   ├── css/site.css             # Styles
 │   ├── js/site.js               # Galerie, recherche, filtres, parallax, menu burger
-│   ├── js/admin.js              # Galerie côté admin
+│   ├── js/admin.js              # Admin : ajout, modification, suppression, déconnexion
 │   └── media/                   # Images statiques du site (fond, logo...)
 │
 ├── Back/                        # Serveur, API et base de données
@@ -73,7 +73,8 @@ Aux-cr-as-de-Marie/
 │   ├── api/                     # API PHP, appelée par le front via /api/...
 │   │   ├── config.php           # Connexion à la base de données
 │   │   ├── login.php / logout.php   # Connexion / déconnexion admin
-│   │   ├── admin_check.php      # Vérifie qu'un admin est bien connecté
+│   │   ├── admin_check.php      # Vérifie qu'un admin est bien connecté (bloque sinon)
+│   │   ├── session.php          # Répond si l'admin est connectée (utilisé par admin.js)
 │   │   ├── cards.php            # Liste des créations (JSON)
 │   │   └── add_card.php / edit_card.php / delete_card.php   # CRUD des créations
 │   └── uploads/                 # Images des créations, ajoutées via l'admin

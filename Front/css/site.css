@@ -1,9 +1,81 @@
-html, body, header, main {
-    margin:0;
-    padding:0;
+/* =========================================================
+   VARIABLES (:root)
+   Toutes les couleurs, polices, arrondis et ombres du site sont rangés ici.
+   Pour changer une couleur partout sur le site, il suffit de la changer ici.
+   On les utilise ensuite avec var(--nom-de-la-variable).
+   ========================================================= */
+:root {
+  /* Couleurs */
+  --rose-clair: #f6d4ff;
+  --rose: #ffa0fe;
+  --rose-fonce: #ff8ffd;
+  --rose-texte: #c2549a; /* rose soutenu, lisible sur fond rose clair */
+  --rouge: #e76f8b;
+  --rouge-fonce: #d4506f;
+  --blanc: #fff;
+  --gris-texte: #666;
+  --gris: #999;
+  --gris-clair: #ccc;
+
+  /* Effet "verre dépoli" des boutons et de la recherche */
+  --verre-fond: rgba(255, 255, 255, 0.25);
+  --verre-bordure: rgba(255, 255, 255, 0.6);
+  --verre-flou: blur(8px);
+  --verre-placeholder: rgba(255, 255, 255, 0.8);
+
+  /* Bouton survolé ou actif */
+  --rose-actif-fond: rgba(255, 160, 254, 0.45);
+  --rose-actif-bordure: rgba(255, 160, 254, 0.8);
+
+  /* Fond dégradé de la page */
+  --degrade-page: linear-gradient(to bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+
+  /* Polices */
+  --police-titre: "DynaPuff", system-ui;
+  --police-texte: "Miranda Sans", sans-serif;
+
+  /* Tailles de texte */
+  --texte-petit: 13px;
+  --texte: 14px;
+
+  /* Arrondis */
+  --arrondi-petit: 8px;
+  --arrondi: 10px;
+  --arrondi-carte: 16px;
+  --arrondi-pilule: 20px;
+
+  /* Ombres */
+  --ombre-legere: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --ombre: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --ombre-survol: 0 8px 25px rgba(0, 0, 0, 0.15);
+  --ombre-fenetre: 0 8px 30px rgba(0, 0, 0, 0.15);
+
+  /* Animations */
+  --transition: 0.3s ease;
 }
 
-/* PARALLAX */
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+/* La largeur d'un élément inclut son padding et sa bordure :
+   un élément de 100% ne dépasse plus quand on lui ajoute du padding. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body, header, main {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* =========================================================
+   PARALLAX
+   ========================================================= */
 .parallax-header {
   position: relative;
   height: 500px;
@@ -26,96 +98,103 @@ html, body, header, main {
 .parallax-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3));
 }
 
 .titre {
   display: flex;
   justify-content: center;
   text-align: center;
-  font-family: "DynaPuff", system-ui;
-  color: #f6d4ff;
+  font-family: var(--police-titre);
+  color: var(--rose-clair);
   font-size: 50px;
   will-change: transform;
 }
 
-main{
-   background-image: linear-gradient(to bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-    width: 100%;
-    height: 800px;
-    margin-top: 0px;  
+main {
+  background-image: var(--degrade-page);
+  width: 100%;
+  /* min-height au lieu de height : le fond s'agrandit s'il y a beaucoup de créations */
+  min-height: 800px;
 }
 
-nav{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .nav-links {
-    display: contents;
+  display: contents;
 }
 
 .burger-toggle {
-    display: none;
+  display: none;
 }
 
 .search {
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    background-color: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 8px;
-    margin: 12px;
-    padding: 12px;
-    color: #fff;
+  border: 1px solid var(--verre-bordure);
+  background-color: var(--verre-fond);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border-radius: var(--arrondi-petit);
+  margin: 12px;
+  padding: 12px;
+  color: var(--blanc);
 }
 
 .search::placeholder {
-    color: rgba(255, 255, 255, 0.8);
+  color: var(--verre-placeholder);
 }
 
+
+/* =========================================================
+   BOUTONS
+   ========================================================= */
 button {
-  background-color: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  color: #fff;
-  font-family: "Miranda Sans", sans-serif;
+  background-color: var(--verre-fond);
+  backdrop-filter: var(--verre-flou);
+  -webkit-backdrop-filter: var(--verre-flou);
+  border: 1px solid var(--verre-bordure);
+  color: var(--blanc);
+  font-family: var(--police-texte);
   padding: 12px 28px;
   margin: 12px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  font-size: 14px;
+  border-radius: var(--arrondi-petit);
+  /* on anime seulement ce qui change, plutôt que "all" */
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
+  font-size: var(--texte);
   letter-spacing: 0.5px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: var(--ombre-legere);
+}
+
+/* Survol, clic, et bouton du filtre actif : même apparence rose */
+button:hover,
+button:active,
+button.active {
+  background-color: var(--rose-actif-fond);
+  border-color: var(--rose-actif-bordure);
+  color: var(--blanc);
 }
 
 button:hover {
-  background-color: rgba(255, 160, 254, 0.45);
-  border-color: rgba(255, 160, 254, 0.8);
-  color: #fff;
   transform: translateY(-2px); /* petit effet de "soulèvement" */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 button:active {
   transform: translateY(0);
-  background-color: rgba(255, 160, 254, 0.45);
-  border-color: rgba(255, 160, 254, 0.8);
-  color: #fff;
 }
 
-button.active {
-  background-color: rgba(255, 160, 254, 0.45);
-  border-color: rgba(255, 160, 254, 0.8);
-  color: #fff;
-}
-
+/* Boutons ronds avec le cadenas */
 #connexion_admin,
 #deconnexion_admin {
   padding: 10px;
@@ -130,6 +209,10 @@ button.active {
   display: block;
 }
 
+
+/* =========================================================
+   CARTES DES CRÉATIONS
+   ========================================================= */
 .cards-container {
   display: flex;
   flex-wrap: wrap;
@@ -140,16 +223,16 @@ button.active {
 
 .card {
   width: 260px;
-  background-color: #fff;
-  border-radius: 16px;
+  background-color: var(--blanc);
+  border-radius: var(--arrondi-carte);
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: var(--ombre);
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--ombre-survol);
 }
 
 .card img {
@@ -165,62 +248,61 @@ button.active {
 }
 
 .card-content h3 {
-  font-family: "DynaPuff", system-ui;
-  color: #ffa0fe;
+  font-family: var(--police-titre);
+  color: var(--rose);
   margin: 0 0 8px 0;
   font-size: 20px;
 }
 
 .card-content p {
-  font-family: "Miranda Sans", sans-serif;
-  color: #666;
-  font-size: 14px;
+  font-family: var(--police-texte);
+  color: var(--gris-texte);
+  font-size: var(--texte);
   margin: 0 0 12px 0;
 }
 
 .card-price {
   display: inline-block;
-  font-family: "Miranda Sans", sans-serif;
+  font-family: var(--police-texte);
   font-weight: bold;
-  color: #ffa0fe;
-  border: 2px solid #ffa0fe;
-  border-radius: 20px;
+  color: var(--rose);
+  border: 2px solid var(--rose);
+  border-radius: var(--arrondi-pilule);
   padding: 4px 16px;
-  font-size: 14px;
+  font-size: var(--texte);
 }
 
-@media only screen and (min-width: 992px) and (max-width:1200px) {
-  button {
-  padding: 8px 20px;
-  margin-top: 25px;
-}
-.search {
-    margin-top : 25px;
-    padding: 8px 20px;
+
+/* =========================================================
+   CHAMPS DE FORMULAIRE (connexion + fenêtre de modification)
+   ========================================================= */
+.login-card input,
+.modal-content input[type="text"],
+.modal-content input[type="number"],
+.modal-content input[type="file"],
+.modal-content select {
+  border: 2px solid var(--rose-clair);
+  border-radius: var(--arrondi);
+  padding: 10px 14px;
+  font-family: var(--police-texte);
+  font-size: var(--texte);
+  color: var(--gris-texte);
 }
 
+/* Le champ dans lequel on écrit devient rose vif, pour qu'on voie où on est */
+.login-card input:focus,
+.modal-content input:focus,
+.modal-content select:focus {
+  outline: none;
+  border-color: var(--rose);
 }
 
- @media only screen and (min-width: 768px) and (max-width:992px) {
-    button {
-  padding: 8px 20px;
-  margin-top: 20px;
-}
-.search {
-    margin-top : 20px;
-    padding: 8px 20px;
-}
-.titre{
- margin-top: 50px;
-    font-size: 30px;
-}
- /* faire menu burger  */
- }
 
-/* LOGIN */
+/* =========================================================
+   PAGE DE CONNEXION
+   ========================================================= */
 .login-page {
   min-height: 100vh;
-  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -228,18 +310,18 @@ button.active {
 }
 
 .login-card {
-  background-color: #fff;
-  border-radius: 16px;
+  background-color: var(--blanc);
+  border-radius: var(--arrondi-carte);
   padding: 40px;
-  width: 320px;
+  width: 400px; /* 320px de contenu + 2 x 40px de padding */
   max-width: 100%;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--ombre-fenetre);
   text-align: center;
 }
 
 .login-card h1 {
-  font-family: "DynaPuff", system-ui;
-  color: #f6d4ff;
+  font-family: var(--police-titre);
+  color: var(--rose);
   font-size: 28px;
   margin: 0 0 24px 0;
 }
@@ -250,75 +332,107 @@ button.active {
   gap: 12px;
 }
 
-.login-card input {
-  border: 2px solid #f6d4ff;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-family: "Miranda Sans", sans-serif;
-  font-size: 14px;
-  color: #666;
-}
-
-.login-card input:focus {
-  outline: none;
-  border-color: #f6d4ff;
-}
-
 .login-card button {
-  background-color:#f6d4ff;
+  background-color: var(--rose);
   backdrop-filter: none;
   border: none;
-  color: #fff;
+  color: var(--blanc);
   margin-top: 8px;
 }
 
 .login-card button:hover {
-  background-color: #ff8ffd;
-  transform: translateY(-2px);
+  background-color: var(--rose-fonce);
 }
 
-/* ADMIN */
-.card-content .btn-edit,
-.card-content .btn-delete {
-  background-color: #fff;
+.login-error {
+  color: var(--rouge);
+  font-family: var(--police-texte);
+}
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+/* Boutons de l'admin (cartes + modales), avec un fond plein :
+   - rose par défaut (Modifier, Valider, Ajouter)
+   - gris pour Annuler (.btn-cancel)
+   - rouge pour Supprimer (.btn-delete sur les cartes, .btn-danger dans la modale)
+   Au survol, le bouton devient un peu plus foncé. */
+.card-content button,
+.modal-content button {
+  background-color: var(--rose-clair);
+  border-color: var(--rose-clair);
+  color: var(--rose-texte);
   backdrop-filter: none;
-  color: #ffa0fe;
-  padding: 8px 18px;
-  margin: 4px;
-  font-size: 13px;
+  -webkit-backdrop-filter: none;
 }
 
-.card-content .btn-delete {
-  border-color: #e76f8b;
-  color: #e76f8b;
+.card-content button:hover,
+.card-content button:active,
+.modal-content button:hover,
+.modal-content button:active {
+  background-color: var(--rose);
+  border-color: var(--rose);
+  color: var(--blanc);
+}
+
+/* Gris : boutons Annuler */
+.modal-content .btn-cancel {
+  background-color: var(--gris-clair);
+  border-color: var(--gris-clair);
+  color: var(--blanc);
+}
+
+.modal-content .btn-cancel:hover,
+.modal-content .btn-cancel:active {
+  background-color: var(--gris);
+  border-color: var(--gris);
+}
+
+/* Rouge : boutons Supprimer */
+.card-content .btn-delete,
+.modal-content .btn-danger {
+  background-color: var(--rouge);
+  border-color: var(--rouge);
+  color: var(--blanc);
 }
 
 .card-content .btn-delete:hover,
-.card-content .btn-delete:active {
-  background-color: #e76f8b;
-  color: #fff;
+.card-content .btn-delete:active,
+.modal-content .btn-danger:hover,
+.modal-content .btn-danger:active {
+  background-color: var(--rouge-fonce);
+  border-color: var(--rouge-fonce);
 }
 
-.modal.hidden {
-  display: none;
-}
-
-.modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+/* Boutons Modifier et Supprimer côte à côte, sous le prix */
+.card-actions {
   display: flex;
-  align-items: center;
   justify-content: center;
-  z-index: 1000;
-  padding: 20px;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+/* Taille des boutons sur les cartes */
+.card-content button {
+  padding: 8px 18px;
+  margin: 0;
+  font-size: var(--texte-petit);
+}
+
+/* Fenêtres (balise <dialog>) : ajout, modification, confirmation de suppression */
+dialog.modal-content {
+  border: none;
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
-  background-color: #fff;
-  border-radius: 16px;
+  background-color: var(--blanc);
+  border-radius: var(--arrondi-carte);
   padding: 32px;
-  width: 320px;
+  width: 384px; /* 320px de contenu + 2 x 32px de padding */
   max-width: 100%;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
 }
@@ -329,42 +443,44 @@ button.active {
   gap: 12px;
 }
 
-.modal-content input[type="text"],
-.modal-content input[type="file"],
-.modal-content select {
-  border: 2px solid #f6d4ff;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-family: "Miranda Sans", sans-serif;
-  font-size: 14px;
-  color: #666;
-}
-
-.modal-content input:focus,
-.modal-content select:focus {
-  outline: none;
-  border-color: #ffa0fe;
-}
-
 .modal-content button {
-  background-color: #fff;
-  backdrop-filter: none;
-  color: #ffa0fe;
   margin: 4px 0 0 0;
 }
 
-.modal-content #closeModal {
-  border-color: #ccc;
-  color: #999;
+/* Phrase de la modale de suppression */
+.modal-content p {
+  font-family: var(--police-texte);
+  color: var(--gris-texte);
+  margin: 0 0 16px 0;
 }
 
-.modal-content #closeModal:hover,
-.modal-content #closeModal:active {
-  background-color: #ccc;
-  color: #fff;
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* Tablette et petit ordinateur (768px à 1200px) */
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
+  button,
+  .search {
+    padding: 8px 20px;
+    margin-top: 25px;
+  }
 }
 
-/* RESPONSIVE MOBILE */
+/* Tablette (768px à 992px) */
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  button,
+  .search {
+    margin-top: 20px;
+  }
+
+  .titre {
+    margin-top: 50px;
+    font-size: 30px;
+  }
+}
+
+/* Mobile (jusqu'à 600px) */
 @media only screen and (max-width: 600px) {
   .parallax-header {
     height: 320px;
@@ -380,18 +496,12 @@ button.active {
     gap: 4px;
   }
 
+  /* Le bouton burger reprend le style "verre" des autres boutons */
   .burger-toggle {
     display: block;
-    background-color: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    color: #fff;
-    border-radius: 8px;
     padding: 8px 14px;
     margin: 6px 0;
     font-size: 18px;
-    cursor: pointer;
   }
 
   .nav-links {
@@ -433,4 +543,3 @@ button.active {
     padding: 20px;
   }
 }
-

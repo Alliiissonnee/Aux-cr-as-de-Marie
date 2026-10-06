@@ -19,13 +19,16 @@ $ligne = $stmt->fetch();
 
 // Compare le mot de passe tapé en clair avec le hash stocké en base, sans jamais "décoder" ce hash,
 //  juste en le recalculant et en comparant.
-if (password_verify($password, $ligne['password_hash'])) {
+if ($ligne && password_verify($password, $ligne['password_hash'])) {
     // Si ça correspond : message de confirmation, et surtout on enregistre l'id de l'admin dans la session
     //  c'est cette ligne qui va permettre à toutes les futures pages de savoir que l'admin est connecté.
-    echo "Mot de passe correct !";
+    // echo "Mot de passe correct !";
     $_SESSION['admin_id'] = $ligne['id'];
+    header('Location: ../admin.html');
+    exit;
 } else {
-    echo "Mot de passe incorrect.";
+    header('Location: ../login.html?erreur=1');
+    exit;
 };
 
 
