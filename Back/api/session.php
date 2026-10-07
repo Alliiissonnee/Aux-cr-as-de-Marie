@@ -1,5 +1,5 @@
 <?php
 //  Verifie que c'est bien l'admin et qu'il est bien connecté
-require __DIR__ . '/demarrer_session.php';
+require __DIR__ . '/start_session.php';
 
-echo json_encode(['connecte' => isset($_SESSION['admin_id'])]);
+echo json_encode(['loggedIn' => isset($_SESSION['admin_id'])]);

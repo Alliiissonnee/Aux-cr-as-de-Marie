@@ -15,9 +15,9 @@ if (!is_numeric($price)){
 
 // Verifie que le fichier a une extention d'image autorisée
 $extension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-$extensionsAutorisees = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+$allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
-if (!in_array($extension, $extensionsAutorisees)) {
+if (!in_array($extension, $allowedExtensions)) {
     http_response_code(400);
     die("Seules les images sont acceptées (jpg, jpeg, png, webp, gif)");
 }
@@ -29,10 +29,10 @@ if (getimagesize($_FILES['image']['tmp_name']) === false) {
 }
 
 // Donne un nom unique à l'image, pour que deux créations ne partagent jamais le même fichier
-$nomImage = uniqid() . '.' . $extension;
+$imageName = uniqid() . '.' . $extension;
 
 
-if (move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../uploads/' . $nomImage)) {
+if (move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../uploads/' . $imageName)) {
     echo "L'image a bien été envoyée";
 } else {
     http_response_code(400);
@@ -41,6 +41,6 @@ if (move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../uploads/' . 
 
 
 $stmt = $pdo->prepare("INSERT INTO cards (image, name, description, price, category) VALUES (:image, :name, :description, :price, :category)");
-$stmt->execute(['image' => $nomImage, 'name' => $name, 'description'=> $description, 'price' => $price, 'category' => $category]);
+$stmt->execute(['image' => $imageName, 'name' => $name, 'description'=> $description, 'price' => $price, 'category' => $category]);
 
 echo "Votre création a bien été ajoutée.";

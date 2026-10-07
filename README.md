@@ -6,7 +6,7 @@ Site réalisé pour une amie afin de présenter et vendre ses créations artisan
 
 **Aux créas de Marie** a démarré comme un simple site vitrine, et évolue progressivement vers un véritable site e-commerce.
 
-L'objectif est de proposer une boutique en ligne simple, chaleureuse et visuelle, permettant à Marie de gérer elle-même ses créations (ajout, modification, suppression) et à ses clientes de les découvrir et, bientôt, de les commander.
+L'objectif est de proposer une boutique en ligne simple, chaleureuse et visuelle, permettant à Marie de gérer elle-même ses créations (ajout, modification, suppression) et à sa clientèle de les découvrir et, bientôt, de les commander.
 
 Ce projet est réalisé bénévolement dans un cadre personnel, avec une attention particulière portée à la présentation des créations et à l'expérience de navigation.
 
@@ -62,6 +62,8 @@ Aux-cr-as-de-Marie/
 │   ├── css/site.css             # Styles
 │   ├── js/site.js               # Galerie, recherche, filtres, parallax, menu burger
 │   ├── js/admin.js              # Admin : ajout, modification, suppression, déconnexion
+│   ├── js/login.js              # Affiche le message d'erreur de connexion
+│   ├── js/utils.js              # Outils partagés (escapeHtml : protège l'affichage contre le code caché)
 │   └── media/                   # Images statiques du site (fond, logo...)
 │
 ├── Back/                        # Serveur, API et base de données
@@ -75,6 +77,7 @@ Aux-cr-as-de-Marie/
 │   │   ├── login.php / logout.php   # Connexion / déconnexion admin
 │   │   ├── admin_check.php      # Vérifie qu'un admin est bien connecté (bloque sinon)
 │   │   ├── session.php          # Répond si l'admin est connectée (utilisé par admin.js)
+│   │   ├── start_session.php    # Démarre la session et déconnecte après 2 h d'inactivité
 │   │   ├── cards.php            # Liste des créations (JSON)
 │   │   └── add_card.php / edit_card.php / delete_card.php   # CRUD des créations
 │   └── uploads/                 # Images des créations, ajoutées via l'admin

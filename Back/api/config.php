@@ -1,4 +1,5 @@
 <?php
+require __DIR__ . '/mailer.php';
 
 // Les 4 informations nécessaires pour se connecter à MySQL : 
 // le nom du service, le nom de la base, et les identifiants.

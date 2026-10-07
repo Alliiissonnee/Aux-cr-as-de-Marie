@@ -2,7 +2,7 @@
 fetch('api/session.php')
   .then(response => response.json())
   .then(data => {
-    if (!data.connecte) {
+    if (!data.loggedIn) {
       window.location.href = 'login.html';
     }
   });
@@ -23,12 +23,12 @@ fetch('api/cards.php')
   .then(data => {
     const container = document.querySelector('.cards-container');
     const cardsHTML = data.map(card => `
-  <section class="card" data-id="${echapper(card.id)}" data-name="${echapper(card.name)}" data-description="${echapper(card.description)}" data-price="${echapper(card.price)}" data-category="${echapper(card.category)}">
-    <img src="uploads/${echapper(card.image)}" alt="${echapper(card.name)}">
+  <section class="card" data-id="${escapeHtml(card.id)}" data-name="${escapeHtml(card.name)}" data-description="${escapeHtml(card.description)}" data-price="${escapeHtml(card.price)}" data-category="${escapeHtml(card.category)}">
+    <img src="uploads/${escapeHtml(card.image)}" alt="${escapeHtml(card.name)}">
     <article class="card-content">
-      <h3>${echapper(card.name)}</h3>
-      <p>${echapper(card.description)}</p>
-      <span class="card-price">${echapper(card.price)}€</span>
+      <h3>${escapeHtml(card.name)}</h3>
+      <p>${escapeHtml(card.description)}</p>
+      <span class="card-price">${escapeHtml(card.price)}€</span>
       <div class="card-actions">
         <button class="btn-edit">Modifier</button>
         <button class="btn-delete">Supprimer</button>

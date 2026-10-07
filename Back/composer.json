@@ -1,0 +1,6 @@
+{
+    "description": "Bibliothèques PHP du site Aux créas de Marie (installées dans l'image Docker)",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

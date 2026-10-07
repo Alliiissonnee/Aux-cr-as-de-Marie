@@ -14,3 +14,18 @@ RUN docker-php-ext-install pdo_mysql
 
 RUN echo "upload_max_filesize = 10M" > /usr/local/etc/php/conf.d/uploads.ini \
  && echo "post_max_size = 12M" >> /usr/local/etc/php/conf.d/uploads.ini
+
+# Les alertes de PHP sont écrites dans les logs (docker logs creas_php) au lieu d'être affichées dans la page :
+# un visiteur ne doit jamais voir les messages techniques de PHP.
+RUN echo "display_errors = Off" > /usr/local/etc/php/conf.d/errors.ini \
+ && echo "log_errors = On" >> /usr/local/etc/php/conf.d/errors.ini
+
+# Composer : le "magasin" de bibliothèques PHP. On l'utilise pour installer PHPMailer (envoi d'emails).
+# Les bibliothèques sont installées dans /var/www/vendor, en dehors du site (/var/www/html) :
+# elles ne sont donc pas accessibles depuis le navigateur.
+RUN apt-get update && apt-get install -y --no-install-recommends unzip && rm -rf /var/lib/apt/lists/*
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+WORKDIR /var/www
+COPY composer.json composer.lock* ./
+RUN composer install --no-dev --no-interaction --optimize-autoloader
+WORKDIR /var/www/html

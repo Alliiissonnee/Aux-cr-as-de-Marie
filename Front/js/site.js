@@ -3,12 +3,12 @@ fetch('api/cards.php')
   .then(data => {
     const container = document.querySelector('.cards-container');
     const cardsHTML = data.map(card => `
-  <section class="card" data-name="${echapper(card.name)}" data-category="${echapper(card.category)}">
-    <img src="uploads/${echapper(card.image)}" alt="${echapper(card.name)}">
+  <section class="card" data-name="${escapeHtml(card.name)}" data-category="${escapeHtml(card.category)}">
+    <img src="uploads/${escapeHtml(card.image)}" alt="${escapeHtml(card.name)}">
     <article class="card-content">
-      <h3>${echapper(card.name)}</h3>
-      <p>${echapper(card.description)}</p>
-      <span class="card-price">${echapper(card.price)}€</span>
+      <h3>${escapeHtml(card.name)}</h3>
+      <p>${escapeHtml(card.description)}</p>
+      <span class="card-price">${escapeHtml(card.price)}€</span>
     </article>
   </section>
 `);
@@ -84,3 +84,53 @@ filterButtons.forEach(button => {
     burgerToggle.setAttribute('aria-expanded', false);
   });
 });
+
+// Demande personnalisée : les éléments de la modale
+const requestModal = document.getElementById('requestModal');
+const requestForm = document.getElementById('requestForm');
+const requestError = document.getElementById('requestError');
+const requestSuccess = document.getElementById('requestSuccess');
+
+// Le bouton "Demande personnalisée" ouvre la modale
+const openRequestButton = document.getElementById('openRequestModal');
+openRequestButton.addEventListener('click', () => {
+  requestError.hidden = true;
+  requestForm.hidden = false;      // ← étape 3 : on réaffiche le formulaire
+  requestSuccess.hidden = true;    // ← étape 3 : on cache le merci de la fois d'avant
+  requestModal.showModal();
+});
+
+// Le bouton Annuler ferme la modale
+const cancelRequestButton = document.getElementById('cancelRequest');
+cancelRequestButton.addEventListener('click', () => {
+  requestModal.close();
+});
+
+// Le bouton "Envoyer ma demande" envoie la demande au PHP
+requestForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const formData = new FormData(requestForm);
+  fetch('api/add_request.php', { method: 'POST', body: formData })
+    .then(response => {
+      response.text().then(text => {
+        if (response.ok) {
+          // On cache le formulaire et on affiche le merci
+          requestForm.reset();
+          requestForm.hidden = true;
+          requestSuccess.querySelector('p').textContent = text;
+          requestSuccess.hidden = false;
+        } else {
+          // On affiche le message d'erreur dans le formulaire
+          requestError.textContent = text;
+          requestError.hidden = false;
+        }
+      });
+    });
+});
+
+// Le bouton "Fermer" du message de remerciement ferme la modale
+const closeRequestSuccessButton = document.getElementById('closeRequestSuccess');
+closeRequestSuccessButton.addEventListener('click', () => {
+  requestModal.close();
+});
+

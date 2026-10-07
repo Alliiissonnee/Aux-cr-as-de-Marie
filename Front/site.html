@@ -28,6 +28,7 @@
         <button data-filter="tricot-couture">Tricot-couture</button>
         <button data-filter="accessoires">Accessoires</button>
         <button data-filter="all" class="active">Tout</button>
+        <button id="openRequestModal" type="button">Demande personnalisée</button>
         <input class="search" type="search" id="searchInput" placeholder="Rechercher">
       </div>
       <button id="connexion_admin"><img src="media/cadenas.png" alt="Connexion admin"></button>
@@ -97,7 +98,55 @@
     </section>
 
   </main>
-  <script src="js/outils.js"></script>
+
+  <dialog id="requestModal" class="modal-content">
+    <h2>Demande personnalisée</h2>
+    <form id="requestForm">
+      <input type="text" name="name" placeholder="Votre nom" required>
+      <input type="email" name="email" placeholder="Votre adresse email" required>
+
+      <select name="category" required>
+        <option value="">Type de création</option>
+        <option value="bebe">Bébé</option>
+        <option value="doudou">Doudou</option>
+        <option value="tricot-couture">Tricot-couture</option>
+        <option value="accessoires">Accessoires</option>
+      </select>
+
+      <label for="desiredDate">Date souhaitée (facultatif)</label>
+      <input type="date" id="desiredDate" name="desired_date">
+
+      <label for="budget">Budget approximatif (facultatif)</label>
+      <select id="budget" name="budget">
+        <option value="">Je ne sais pas encore</option>
+        <option value="under20">Moins de 20 €</option>
+        <option value="20-50">Entre 20 et 50 €</option>
+        <option value="50-100">Entre 50 et 100 €</option>
+        <option value="over100">Plus de 100 €</option>
+      </select>
+
+      <textarea name="message" rows="4" placeholder="Décrivez votre idée" required></textarea>
+
+      <label for="photo">Photo d'inspiration (facultatif)</label>
+      <input type="file" id="photo" name="photo" accept="image/*">
+
+      <label class="consent">
+        <input type="checkbox" name="consent" required>
+        J'accepte que mes données soient utilisées par Aux créas de Marie pour traiter ma demande
+      </label>
+
+      <p id="requestError" class="form-error" hidden></p>
+      <button type="submit">Envoyer ma demande</button>
+      <button type="button" id="cancelRequest" class="btn-cancel">Annuler</button>
+    </form>
+    <article id="requestSuccess" hidden>
+      <p class="form-success"></p>
+      <button type="button" id="closeRequestSuccess">Fermer</button>
+    </article>
+
+  </dialog>
+
+  <script src="js/utils.js"></script>
   <script src="js/site.js"></script>
 </body>
 

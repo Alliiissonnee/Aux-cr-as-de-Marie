@@ -1,1 +1,10 @@
 .vscode/
+# Images envoyées depuis l'admin
+Back/uploads/*
+
+
+# Mots de passe et réglages privés (emails…)
+Back/.env
+
+# Bibliothèques PHP installées par Composer
+Back/vendor/

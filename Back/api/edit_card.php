@@ -22,12 +22,12 @@ $ligne = $stmt->fetch();
 
 if ($_FILES['image']['tmp_name'] !== '') {
     $extension = strtolower(pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION));
-    $extensionsAutorisees = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
-    if (!in_array($extension, $extensionsAutorisees)){
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    if (!in_array($extension, $allowedExtensions)){
         http_response_code(400);
         die("Seules les images sont acceptées (jpg, jpeg, png, webp, gif)");
     }
-    $nomImage = uniqid() . '.' . $extension;
+    $imageName = uniqid() . '.' . $extension;
     // Verifie que l'img est bien une img même si elle a une bonne extension
     if (getimagesize($_FILES['image']['tmp_name']) === false) {
     http_response_code(400);
@@ -38,8 +38,8 @@ if ($_FILES['image']['tmp_name'] !== '') {
         unlink (__DIR__ . '/../uploads/' . $ligne['image']);
     }
 
-    move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../uploads/' . $nomImage);
-    $image = $nomImage;
+    move_uploaded_file($_FILES['image']['tmp_name'], __DIR__ . '/../uploads/' . $imageName);
+    $image = $imageName;
 } else {
     $image = $ligne['image'];
 }

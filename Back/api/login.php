@@ -27,7 +27,7 @@ if ($ligne && password_verify($password, $ligne['password_hash'])) {
     header('Location: ../admin.html');
     exit;
 } else {
-    header('Location: ../login.html?erreur=1');
+    header('Location: ../login.html?error=1');
     exit;
 };
 

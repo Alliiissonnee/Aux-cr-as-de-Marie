@@ -1,47 +1,47 @@
 :root {
-  --rose-clair: #f6d4ff;
-  --rose: #ffa0fe;
-  --rose-fonce: #ff8ffd;
-  --rose-texte: #c2549a; /* rose soutenu, lisible sur fond rose clair */
-  --rouge: #e76f8b;
-  --rouge-fonce: #d4506f;
-  --blanc: #fff;
-  --gris-texte: #666;
-  --gris: #999;
-  --gris-clair: #ccc;
+  --pink-light: #f6d4ff;
+  --pink: #ffa0fe;
+  --pink-dark: #ff8ffd;
+  --pink-text: #c2549a; /* rose soutenu, lisible sur fond rose clair */
+  --red: #e76f8b;
+  --red-dark: #d4506f;
+  --white: #fff;
+  --gray-text: #666;
+  --gray: #999;
+  --gray-light: #ccc;
 
   /* Effet "verre dépoli" des boutons et de la recherche */
-  --verre-fond: rgba(255, 255, 255, 0.25);
-  --verre-bordure: rgba(255, 255, 255, 0.6);
-  --verre-flou: blur(8px);
-  --verre-placeholder: rgba(255, 255, 255, 0.8);
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-blur: blur(8px);
+  --glass-placeholder: rgba(255, 255, 255, 0.8);
 
   /* Bouton survolé ou actif */
-  --rose-actif-fond: rgba(255, 160, 254, 0.45);
-  --rose-actif-bordure: rgba(255, 160, 254, 0.8);
+  --pink-active-bg: rgba(255, 160, 254, 0.45);
+  --pink-active-border: rgba(255, 160, 254, 0.8);
 
   /* Fond dégradé de la page */
-  --degrade-page: linear-gradient(to bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+  --page-gradient: linear-gradient(to bottom, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
 
   /* Polices */
-  --police-titre: "DynaPuff", system-ui;
-  --police-texte: "Miranda Sans", sans-serif;
+  --font-title: "DynaPuff", system-ui;
+  --font-text: "Miranda Sans", sans-serif;
 
   /* Tailles de texte */
-  --texte-petit: 13px;
-  --texte: 14px;
+  --text-small: 13px;
+  --text: 14px;
 
   /* Arrondis */
-  --arrondi-petit: 8px;
-  --arrondi: 10px;
-  --arrondi-carte: 16px;
-  --arrondi-pilule: 20px;
+  --radius-small: 8px;
+  --radius: 10px;
+  --radius-card: 16px;
+  --radius-pill: 20px;
 
   /* Ombres */
-  --ombre-legere: 0 2px 8px rgba(0, 0, 0, 0.08);
-  --ombre: 0 4px 15px rgba(0, 0, 0, 0.1);
-  --ombre-survol: 0 8px 25px rgba(0, 0, 0, 0.15);
-  --ombre-fenetre: 0 8px 30px rgba(0, 0, 0, 0.15);
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 8px 25px rgba(0, 0, 0, 0.15);
+  --shadow-window: 0 8px 30px rgba(0, 0, 0, 0.15);
 
   /* Animations */
   --transition: 0.3s ease;
@@ -63,6 +63,11 @@
 html, body, header, main {
   margin: 0;
   padding: 0;
+}
+
+/* Un élément marqué "hidden" est toujours caché, même si une autre règle lui donne un display */
+[hidden] {
+  display: none !important;
 }
 
 
@@ -98,14 +103,14 @@ html, body, header, main {
   display: flex;
   justify-content: center;
   text-align: center;
-  font-family: var(--police-titre);
-  color: var(--rose-clair);
+  font-family: var(--font-title);
+  color: var(--pink-light);
   font-size: 50px;
   will-change: transform;
 }
 
 main {
-  background-image: var(--degrade-page);
+  background-image: var(--page-gradient);
   width: 100%;
   /* min-height au lieu de height : le fond s'agrandit s'il y a beaucoup de créations */
   min-height: 800px;
@@ -131,18 +136,18 @@ nav {
 }
 
 .search {
-  border: 1px solid var(--verre-bordure);
-  background-color: var(--verre-fond);
-  backdrop-filter: var(--verre-flou);
-  -webkit-backdrop-filter: var(--verre-flou);
-  border-radius: var(--arrondi-petit);
+  border: 1px solid var(--glass-border);
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-radius: var(--radius-small);
   margin: 12px;
   padding: 12px;
-  color: var(--blanc);
+  color: var(--white);
 }
 
 .search::placeholder {
-  color: var(--verre-placeholder);
+  color: var(--glass-placeholder);
 }
 
 
@@ -150,32 +155,32 @@ nav {
    BOUTONS
    ========================================================= */
 button {
-  background-color: var(--verre-fond);
-  backdrop-filter: var(--verre-flou);
-  -webkit-backdrop-filter: var(--verre-flou);
-  border: 1px solid var(--verre-bordure);
-  color: var(--blanc);
-  font-family: var(--police-texte);
+  background-color: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  color: var(--white);
+  font-family: var(--font-text);
   padding: 12px 28px;
   margin: 12px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
-  border-radius: var(--arrondi-petit);
+  border-radius: var(--radius-small);
   /* on anime seulement ce qui change, plutôt que "all" */
   transition: background-color var(--transition), border-color var(--transition), color var(--transition), transform var(--transition), box-shadow var(--transition);
-  font-size: var(--texte);
+  font-size: var(--text);
   letter-spacing: 0.5px;
-  box-shadow: var(--ombre-legere);
+  box-shadow: var(--shadow-light);
 }
 
 /* Survol, clic, et bouton du filtre actif : même apparence rose */
 button:hover,
 button:active,
 button.active {
-  background-color: var(--rose-actif-fond);
-  border-color: var(--rose-actif-bordure);
-  color: var(--blanc);
+  background-color: var(--pink-active-bg);
+  border-color: var(--pink-active-border);
+  color: var(--white);
 }
 
 button:hover {
@@ -216,16 +221,16 @@ button:active {
 
 .card {
   width: 260px;
-  background-color: var(--blanc);
-  border-radius: var(--arrondi-carte);
+  background-color: var(--white);
+  border-radius: var(--radius-card);
   overflow: hidden;
-  box-shadow: var(--ombre);
+  box-shadow: var(--shadow);
   transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--ombre-survol);
+  box-shadow: var(--shadow-hover);
 }
 
 .card img {
@@ -241,53 +246,62 @@ button:active {
 }
 
 .card-content h3 {
-  font-family: var(--police-titre);
-  color: var(--rose);
+  font-family: var(--font-title);
+  color: var(--pink);
   margin: 0 0 8px 0;
   font-size: 20px;
 }
 
 .card-content p {
-  font-family: var(--police-texte);
-  color: var(--gris-texte);
-  font-size: var(--texte);
+  font-family: var(--font-text);
+  color: var(--gray-text);
+  font-size: var(--text);
   margin: 0 0 12px 0;
 }
 
 .card-price {
   display: inline-block;
-  font-family: var(--police-texte);
+  font-family: var(--font-text);
   font-weight: bold;
-  color: var(--rose);
-  border: 2px solid var(--rose);
-  border-radius: var(--arrondi-pilule);
+  color: var(--pink);
+  border: 2px solid var(--pink);
+  border-radius: var(--radius-pill);
   padding: 4px 16px;
-  font-size: var(--texte);
+  font-size: var(--text);
 }
 
 
 /* =========================================================
-   CHAMPS DE FORMULAIRE (connexion + fenêtre de modification)
+   CHAMPS DE FORMULAIRE (connexion, admin, demande personnalisée)
    ========================================================= */
 .login-card input,
 .modal-content input[type="text"],
 .modal-content input[type="number"],
+.modal-content input[type="email"],
+.modal-content input[type="date"],
 .modal-content input[type="file"],
-.modal-content select {
-  border: 2px solid var(--rose-clair);
-  border-radius: var(--arrondi);
+.modal-content select,
+.modal-content textarea {
+  border: 2px solid var(--pink-light);
+  border-radius: var(--radius);
   padding: 10px 14px;
-  font-family: var(--police-texte);
-  font-size: var(--texte);
-  color: var(--gris-texte);
+  font-family: var(--font-text);
+  font-size: var(--text);
+  color: var(--gray-text);
+}
+
+/* La grande case du message : on peut l'agrandir en hauteur seulement */
+.modal-content textarea {
+  resize: vertical;
 }
 
 /* Le champ dans lequel on écrit devient rose vif, pour qu'on voie où on est */
 .login-card input:focus,
 .modal-content input:focus,
-.modal-content select:focus {
+.modal-content select:focus,
+.modal-content textarea:focus {
   outline: none;
-  border-color: var(--rose);
+  border-color: var(--pink);
 }
 
 
@@ -303,18 +317,18 @@ button:active {
 }
 
 .login-card {
-  background-color: var(--blanc);
-  border-radius: var(--arrondi-carte);
+  background-color: var(--white);
+  border-radius: var(--radius-card);
   padding: 40px;
   width: 400px; /* 320px de contenu + 2 x 40px de padding */
   max-width: 100%;
-  box-shadow: var(--ombre-fenetre);
+  box-shadow: var(--shadow-window);
   text-align: center;
 }
 
 .login-card h1 {
-  font-family: var(--police-titre);
-  color: var(--rose);
+  font-family: var(--font-title);
+  color: var(--pink);
   font-size: 28px;
   margin: 0 0 24px 0;
 }
@@ -326,20 +340,20 @@ button:active {
 }
 
 .login-card button {
-  background-color: var(--rose);
+  background-color: var(--pink);
   backdrop-filter: none;
   border: none;
-  color: var(--blanc);
+  color: var(--white);
   margin-top: 8px;
 }
 
 .login-card button:hover {
-  background-color: var(--rose-fonce);
+  background-color: var(--pink-dark);
 }
 
 .login-error, .modal-content .form-error {
-  color: var(--rouge);
-  font-family: var(--police-texte);
+  color: var(--red);
+  font-family: var(--font-text);
 }
 
 /* =========================================================
@@ -352,9 +366,9 @@ button:active {
    Au survol, le bouton devient un peu plus foncé. */
 .card-content button,
 .modal-content button {
-  background-color: var(--rose-clair);
-  border-color: var(--rose-clair);
-  color: var(--rose-texte);
+  background-color: var(--pink-light);
+  border-color: var(--pink-light);
+  color: var(--pink-text);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -363,38 +377,38 @@ button:active {
 .card-content button:active,
 .modal-content button:hover,
 .modal-content button:active {
-  background-color: var(--rose);
-  border-color: var(--rose);
-  color: var(--blanc);
+  background-color: var(--pink);
+  border-color: var(--pink);
+  color: var(--white);
 }
 
 /* Gris : boutons Annuler */
 .modal-content .btn-cancel {
-  background-color: var(--gris-clair);
-  border-color: var(--gris-clair);
-  color: var(--blanc);
+  background-color: var(--gray-light);
+  border-color: var(--gray-light);
+  color: var(--white);
 }
 
 .modal-content .btn-cancel:hover,
 .modal-content .btn-cancel:active {
-  background-color: var(--gris);
-  border-color: var(--gris);
+  background-color: var(--gray);
+  border-color: var(--gray);
 }
 
 /* Rouge : boutons Supprimer */
 .card-content .btn-delete,
 .modal-content .btn-danger {
-  background-color: var(--rouge);
-  border-color: var(--rouge);
-  color: var(--blanc);
+  background-color: var(--red);
+  border-color: var(--red);
+  color: var(--white);
 }
 
 .card-content .btn-delete:hover,
 .card-content .btn-delete:active,
 .modal-content .btn-danger:hover,
 .modal-content .btn-danger:active {
-  background-color: var(--rouge-fonce);
-  border-color: var(--rouge-fonce);
+  background-color: var(--red-dark);
+  border-color: var(--red-dark);
 }
 
 /* Boutons Modifier et Supprimer côte à côte, sous le prix */
@@ -409,7 +423,7 @@ button:active {
 .card-content button {
   padding: 8px 18px;
   margin: 0;
-  font-size: var(--texte-petit);
+  font-size: var(--text-small);
 }
 
 /* Fenêtres (balise <dialog>) : ajout, modification, confirmation de suppression */
@@ -422,8 +436,8 @@ dialog::backdrop {
 }
 
 .modal-content {
-  background-color: var(--blanc);
-  border-radius: var(--arrondi-carte);
+  background-color: var(--white);
+  border-radius: var(--radius-card);
   padding: 32px;
   width: 384px; /* 320px de contenu + 2 x 32px de padding */
   max-width: 100%;
@@ -442,8 +456,8 @@ dialog::backdrop {
 
 /* Phrase de la modale de suppression */
 .modal-content p {
-  font-family: var(--police-texte);
-  color: var(--gris-texte);
+  font-family: var(--font-text);
+  color: var(--gray-text);
   margin: 0 0 16px 0;
 }
 
@@ -451,8 +465,8 @@ dialog::backdrop {
    RESPONSIVE
    ========================================================= */
 
-/* Tablette et petit ordinateur (768px à 1200px) */
-@media only screen and (min-width: 768px) and (max-width: 1200px) {
+/* Petit ordinateur (1025px à 1200px) : boutons du menu un peu plus petits */
+@media only screen and (min-width: 1025px) and (max-width: 1200px) {
   button,
   .search {
     padding: 8px 20px;
@@ -460,16 +474,49 @@ dialog::backdrop {
   }
 }
 
-/* Tablette (768px à 992px) */
+/* Tablette (768px à 992px) : titre plus petit */
 @media only screen and (min-width: 768px) and (max-width: 992px) {
-  button,
-  .search {
-    margin-top: 20px;
-  }
-
   .titre {
     margin-top: 50px;
     font-size: 30px;
+  }
+}
+
+/* Tablette et téléphone (jusqu'à 1024px) : menu burger */
+@media only screen and (max-width: 1024px) {
+  nav {
+    justify-content: space-between;
+    padding: 0 16px;
+    gap: 4px;
+    position: relative;
+    z-index: 2; /* le menu ouvert passe au-dessus du grand titre (effet parallax) */
+  }
+
+  /* Le bouton burger reprend le style "verre" des autres boutons */
+  .burger-toggle {
+    display: block;
+    padding: 8px 14px;
+    margin: 6px 0;
+    font-size: 18px;
+  }
+
+  /* Les liens du menu sont cachés, et s'affichent en colonne quand on ouvre le burger */
+  .nav-links {
+    display: none;
+    width: 100%;
+    order: 3;
+  }
+
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .nav-links .search {
+    width: auto;
+    max-width: none;
+    margin: 6px;
   }
 }
 
@@ -481,32 +528,6 @@ dialog::backdrop {
 
   .titre {
     font-size: 26px;
-  }
-
-  nav {
-    justify-content: space-between;
-    padding: 0 16px;
-    gap: 4px;
-  }
-
-  /* Le bouton burger reprend le style "verre" des autres boutons */
-  .burger-toggle {
-    display: block;
-    padding: 8px 14px;
-    margin: 6px 0;
-    font-size: 18px;
-  }
-
-  .nav-links {
-    display: none;
-    width: 100%;
-    order: 3;
-  }
-
-  .nav-links.open {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
   }
 
   button {
@@ -535,4 +556,57 @@ dialog::backdrop {
   .modal-content {
     padding: 20px;
   }
+}
+
+
+/* =========================================================
+   DEMANDE PERSONNALISÉE (modale du site public)
+   ========================================================= */
+.modal-content h2 {
+  font-family: var(--font-title);
+  color: var(--pink);
+  text-align: center;
+  margin: 0 0 16px 0;
+}
+
+/* Petites étiquettes au-dessus des cases (date, budget, photo) */
+.modal-content label {
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+  color: var(--gray-text);
+  margin-bottom: -6px; /* rapproche l'étiquette de sa case */
+}
+
+/* Case à cocher du consentement : la case et la phrase côte à côte */
+.modal-content label.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 4px 0 0 0;
+  line-height: 1.4;
+}
+
+.modal-content label.consent input {
+  margin-top: 2px;
+  accent-color: var(--pink); /* case cochée en rose */
+}
+
+/* Le formulaire de demande est long : la modale défile si l'écran est petit */
+#requestModal {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Message de remerciement après l'envoi d'une demande */
+.modal-content .form-success {
+  font-family: var(--font-text);
+  color: var(--pink-text);
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 8px 0 20px 0;
+}
+
+#requestSuccess button {
+  width: 100%;
 }
