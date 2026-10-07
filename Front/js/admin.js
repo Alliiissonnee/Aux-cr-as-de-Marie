@@ -12,6 +12,8 @@ const editModal = document.getElementById('editModal');
 const editForm = document.getElementById('editForm');
 const addModal = document.getElementById('addModal');
 const addForm = document.getElementById('addForm');
+const addError = document.getElementById('addError');
+const editError = document.getElementById('editError');
 let cardToDelete = null;
 let cardToEdit = null;
 
@@ -21,12 +23,12 @@ fetch('api/cards.php')
   .then(data => {
     const container = document.querySelector('.cards-container');
     const cardsHTML = data.map(card => `
-  <section class="card" data-id="${card.id}" data-name="${card.name}" data-description="${card.description}" data-price="${card.price}" data-category="${card.category}">
-    <img src="uploads/${card.image}" alt="${card.name}">
+  <section class="card" data-id="${echapper(card.id)}" data-name="${echapper(card.name)}" data-description="${echapper(card.description)}" data-price="${echapper(card.price)}" data-category="${echapper(card.category)}">
+    <img src="uploads/${echapper(card.image)}" alt="${echapper(card.name)}">
     <article class="card-content">
-      <h3>${card.name}</h3>
-      <p>${card.description}</p>
-      <span class="card-price">${card.price}€</span>
+      <h3>${echapper(card.name)}</h3>
+      <p>${echapper(card.description)}</p>
+      <span class="card-price">${echapper(card.price)}€</span>
       <div class="card-actions">
         <button class="btn-edit">Modifier</button>
         <button class="btn-delete">Supprimer</button>
@@ -53,6 +55,7 @@ fetch('api/cards.php')
         editForm.elements['description'].value = cardToEdit.dataset.description;
         editForm.elements['price'].value = cardToEdit.dataset.price;
         editForm.elements['category'].value = cardToEdit.dataset.category;
+        editError.hidden = true;
         editModal.showModal();
       });
     });
@@ -99,16 +102,22 @@ editForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const formData = new FormData(editForm);
   fetch('api/edit_card.php', { method: 'POST', body: formData })
-    .then(response => response.text())
-    .then(text => {
-      console.log(text);
+    .then(response => {
+      if (response.ok) {
       window.location.reload();
-    })
+    } else {
+      response.text().then(text => {
+        editError.textContent = text;
+        editError.hidden = false;
+      });
+    }
+});
 });
 
 // Le bouton "Ajouter une création" ouvre la modal
 const openAddButton = document.getElementById('openAddModal');
 openAddButton.addEventListener('click', () => {
+  addError.hidden = true;
   addModal.showModal();
 });
 
@@ -123,9 +132,14 @@ addForm.addEventListener('submit', (event) => {
   event.preventDefault();
   const formData = new FormData(addForm);
   fetch('api/add_card.php', { method: 'POST', body: formData })
-    .then(response => response.text())
-    .then(text => {
-      console.log(text);
+  .then(response => {
+    if (response.ok) {
       window.location.reload();
-    })
+    } else {
+      response.text().then(text => {
+      addError.textContent = text;
+      addError.hidden = false;
+    });
+  }    
+ });
 });

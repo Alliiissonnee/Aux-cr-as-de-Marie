@@ -1,11 +1,4 @@
-/* =========================================================
-   VARIABLES (:root)
-   Toutes les couleurs, polices, arrondis et ombres du site sont rangés ici.
-   Pour changer une couleur partout sur le site, il suffit de la changer ici.
-   On les utilise ensuite avec var(--nom-de-la-variable).
-   ========================================================= */
 :root {
-  /* Couleurs */
   --rose-clair: #f6d4ff;
   --rose: #ffa0fe;
   --rose-fonce: #ff8ffd;
@@ -344,7 +337,7 @@ button:active {
   background-color: var(--rose-fonce);
 }
 
-.login-error {
+.login-error, .modal-content .form-error {
   color: var(--rouge);
   font-family: var(--police-texte);
 }
