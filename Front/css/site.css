@@ -154,7 +154,10 @@ nav {
 /* =========================================================
    BOUTONS
    ========================================================= */
-button {
+/* Les liens du menu (.nav-link) ont le même style "verre" que les boutons */
+button,
+.nav-link {
+  display: inline-block;
   background-color: var(--glass-bg);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -177,13 +180,16 @@ button {
 /* Survol, clic, et bouton du filtre actif : même apparence rose */
 button:hover,
 button:active,
-button.active {
+button.active,
+.nav-link:hover,
+.nav-link:active {
   background-color: var(--pink-active-bg);
   border-color: var(--pink-active-border);
   color: var(--white);
 }
 
-button:hover {
+button:hover,
+.nav-link:hover {
   transform: translateY(-2px); /* petit effet de "soulèvement" */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -468,6 +474,7 @@ dialog::backdrop {
 /* Petit ordinateur (1025px à 1200px) : boutons du menu un peu plus petits */
 @media only screen and (min-width: 1025px) and (max-width: 1200px) {
   button,
+  .nav-link,
   .search {
     padding: 8px 20px;
     margin-top: 25px;
@@ -530,7 +537,8 @@ dialog::backdrop {
     font-size: 26px;
   }
 
-  button {
+  button,
+  .nav-link {
     padding: 8px 16px;
     margin: 6px;
     font-size: 12px;
@@ -609,4 +617,101 @@ dialog::backdrop {
 
 #requestSuccess button {
   width: 100%;
+}
+
+
+/* =========================================================
+   PAGE DES DEMANDES (requests.html, réservée à l'admin)
+   ========================================================= */
+
+/* La "fenêtre" autour du tableau : si le tableau est trop large (téléphone),
+   on peut le faire glisser de gauche à droite à l'intérieur */
+.requests-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  overflow-x: auto;
+}
+
+.requests-table {
+  width: 100%;
+  min-width: 900px; /* en dessous, la fenêtre fait défiler le tableau */
+  border-collapse: collapse; /* les bordures des cases se touchent, sans espace entre elles */
+  background-color: var(--white);
+  border-radius: var(--radius-card);
+  overflow: hidden; /* garde les coins arrondis */
+  box-shadow: var(--shadow);
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+  color: var(--gray-text);
+}
+
+/* La ligne des titres */
+.requests-table th {
+  background-color: var(--pink-light);
+  color: var(--pink-text);
+  text-align: left;
+  padding: 14px 12px;
+  white-space: nowrap; /* un titre de colonne tient sur une seule ligne */
+}
+
+.requests-table td {
+  padding: 12px;
+  vertical-align: top;
+  border-top: 1px solid var(--pink-light);
+}
+
+/* Une ligne sur deux légèrement teintée, pour suivre facilement une ligne du regard */
+.requests-table tbody tr:nth-child(even) {
+  background-color: #fdf7ff;
+}
+
+.requests-table tbody tr:hover {
+  background-color: #faeefe;
+}
+
+/* Le message peut être long : on lui laisse de la place et on garde ses retours à la ligne */
+.requests-table td:nth-child(7) {
+  min-width: 260px;
+  white-space: pre-line;
+}
+
+/* Les dates restent sur une seule ligne */
+.requests-table td:nth-child(1),
+.requests-table td:nth-child(5) {
+  white-space: nowrap;
+}
+
+/* L'heure de la demande, écrite en petit sous la date */
+.request-time {
+  font-size: 12px;
+  color: var(--gray);
+}
+
+.requests-table a {
+  color: var(--pink-text);
+  font-weight: bold;
+}
+
+/* La liste déroulante du statut (dernière colonne) */
+.requests-table select {
+  border: 2px solid var(--pink-light);
+  border-radius: var(--radius);
+  padding: 6px 10px;
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+  color: var(--gray-text);
+  background-color: var(--white);
+  cursor: pointer;
+}
+
+.requests-table select:focus {
+  outline: none;
+  border-color: var(--pink);
+}
+
+/* Message affiché quand il n'y a encore aucune demande */
+.requests-empty {
+  text-align: center;
+  padding: 30px;
 }

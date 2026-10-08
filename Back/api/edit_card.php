@@ -3,6 +3,12 @@
 require __DIR__ . '/admin_check.php';
 require __DIR__ . '/config.php';
 
+// Pour eviter le rejet du formulaire en cas de img trop lourde
+if (empty($_POST) && empty($_FILES) && ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+    http_response_code(400);
+    die("L'image est trop lourde (10 Mo maximum).");
+}
+
 $id = $_POST['id'];
 $name = $_POST['name'];
 $description = $_POST['description'];

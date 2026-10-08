@@ -23,6 +23,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: auxcreasdemarie
+      # Heure française (sinon MySQL utilise l'heure mondiale UTC, 2h de décalage en été)
+      TZ: Europe/Paris
     ports:
       - "3306:3306"
     volumes:

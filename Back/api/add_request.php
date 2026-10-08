@@ -2,6 +2,13 @@
 // Reçoit une demande de personnalisation envoyée depuis le site public
 
 require __DIR__ . '/config.php';
+require __DIR__ . '/mailer.php';
+
+// Pour eviter le rejet du formulaire en cas de img trop lourde, message pour prevenir le client
+if (empty($_POST) && empty($_FILES) && ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+    http_response_code(400);
+    die("La photo est trop lourde (10 Mo maximum).");
+}
 
 // Récupère les cases du formulaire (trim enlève les espaces au début et à la fin)
 $name = trim($_POST['name'] ?? '');
@@ -110,5 +117,29 @@ $stmt->execute([
     'message' => $message,
     'photo' => $photoName,
 ]);
+
+try {
+// Prévient Marie par email
+    $mail = createMailer();
+    $mail->addAddress(getenv('MAIL_TO'));
+    $mail->addReplyTo($email, $name);
+    $mail->Subject = 'Nouvelle demande personnalisée de ' .$name;
+    $mail->Body = "Une nouvelle demande vient d'arriver sur le site.\n\n"
+        . "Nom : $name\n"
+        . "Email : $email\n"
+        . "Type de création : $category\n"
+        . "Date souhaitée : " . ($desiredDate ?? 'non précisée') . "\n"
+        . "Budget : " . ($budget ?? 'non précisé') . "\n\n"
+        . "Message :\n$message\n";
+// Joint la photo d'inspiration, si le client en a envoyé une
+    if ($photoName !== null) {
+        $mail->addAttachment(__DIR__ . '/../uploads/' . $photoName);
+    }
+    $mail->send();
+} catch (Exception $e) {
+    // Email non parti, erreur non apparante coté front
+    error_log("Email de demande non envoyé : " . $e->getMessage());
+}
+
 
 echo "Merci ! Votre demande a bien été envoyée. Marie vous répondra par email très vite.";

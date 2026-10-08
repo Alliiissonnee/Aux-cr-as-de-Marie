@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS admin_users (
     password_hash VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Les demandes de personnalisation envoyées par les clientes.
+-- Les demandes de personnalisation envoyées par les clients.
 CREATE TABLE IF NOT EXISTS custom_requests (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
