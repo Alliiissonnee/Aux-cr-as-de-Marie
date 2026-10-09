@@ -105,8 +105,16 @@ html, body, header, main {
   text-align: center;
   font-family: var(--font-title);
   color: var(--pink-light);
-  font-size: 50px;
+  /* Taille "fluide" : le titre grandit avec la largeur de l'écran (5.4vw = 5,4 % de la largeur),
+     sans jamais descendre sous 20px ni dépasser 50px. Plus besoin d'une taille par écran. */
+  font-size: clamp(20px, 5.4vw, 50px);
+  padding: 0 16px; /* le titre ne touche jamais les bords */
   will-change: transform;
+}
+
+/* "Les demandes personnalisées" contient un mot très long : un peu plus petit pour ne pas dépasser */
+.titre:has(+ .requests-container) {
+  font-size: clamp(17px, 4.6vw, 50px);
 }
 
 main {
@@ -403,7 +411,8 @@ button:active {
 
 /* Rouge : boutons Supprimer */
 .card-content .btn-delete,
-.modal-content .btn-danger {
+.modal-content .btn-danger,
+.requests-table .delete-request {
   background-color: var(--red);
   border-color: var(--red);
   color: var(--white);
@@ -412,7 +421,9 @@ button:active {
 .card-content .btn-delete:hover,
 .card-content .btn-delete:active,
 .modal-content .btn-danger:hover,
-.modal-content .btn-danger:active {
+.modal-content .btn-danger:active,
+.requests-table .delete-request:hover,
+.requests-table .delete-request:active {
   background-color: var(--red-dark);
   border-color: var(--red-dark);
 }
@@ -426,7 +437,8 @@ button:active {
 }
 
 /* Taille des boutons sur les cartes */
-.card-content button {
+.card-content button,
+.requests-table .delete-request {
   padding: 8px 18px;
   margin: 0;
   font-size: var(--text-small);
@@ -481,11 +493,10 @@ dialog::backdrop {
   }
 }
 
-/* Tablette (768px à 992px) : titre plus petit */
+/* Tablette (768px à 992px) : un peu d'espace au-dessus du titre */
 @media only screen and (min-width: 768px) and (max-width: 992px) {
   .titre {
     margin-top: 50px;
-    font-size: 30px;
   }
 }
 
@@ -533,8 +544,9 @@ dialog::backdrop {
     height: 320px;
   }
 
-  .titre {
-    font-size: 26px;
+  /* Un peu moins de marge sur les côtés : les 3 boutons de l'admin tiennent sur une ligne */
+  nav {
+    padding: 0 8px;
   }
 
   button,
@@ -627,7 +639,7 @@ dialog::backdrop {
 /* La "fenêtre" autour du tableau : si le tableau est trop large (téléphone),
    on peut le faire glisser de gauche à droite à l'intérieur */
 .requests-container {
-  max-width: 1300px;
+  max-width: 1600px; /* le tableau complet a besoin d'environ 1450px */
   margin: 0 auto;
   padding: 40px 20px;
   overflow-x: auto;
@@ -672,7 +684,7 @@ dialog::backdrop {
 
 /* Le message peut être long : on lui laisse de la place et on garde ses retours à la ligne */
 .requests-table td:nth-child(7) {
-  min-width: 260px;
+  min-width: 200px;
   white-space: pre-line;
 }
 
@@ -693,25 +705,181 @@ dialog::backdrop {
   font-weight: bold;
 }
 
-/* La liste déroulante du statut (dernière colonne) */
-.requests-table select {
-  border: 2px solid var(--pink-light);
-  border-radius: var(--radius);
-  padding: 6px 10px;
-  font-family: var(--font-text);
-  font-size: var(--text-small);
-  color: var(--gray-text);
-  background-color: var(--white);
-  cursor: pointer;
+/* L'interrupteur du statut (dernière colonne) : 3 boutons radio collés dans une "pilule" */
+.status-switch {
+  display: inline-flex;
+  margin: 0;
+  padding: 3px;
+  border: none; /* enlève le cadre gris qu'un fieldset a par défaut */
+  border-radius: var(--radius-pill);
+  background-color: var(--pink-light);
+  white-space: nowrap;
 }
 
-.requests-table select:focus {
-  outline: none;
-  border-color: var(--pink);
+.status-switch label {
+  position: relative; /* le bouton radio caché reste rangé dans son étiquette */
+  padding: 5px 9px;
+  font-size: 12px;
+  border-radius: var(--radius-pill);
+  color: var(--pink-text);
+  font-weight: bold;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+/* Le rond du bouton radio est caché : c'est toute l'étiquette qui sert de bouton */
+.status-switch input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.status-switch label:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+/* L'étiquette qui contient le bouton coché prend sa couleur */
+.status-switch label:has(input:checked) {
+  color: var(--white);
+  box-shadow: var(--shadow-light);
+}
+
+.status-new:has(input:checked) {
+  background-color: var(--pink-text);
+}
+
+.status-in-progress:has(input:checked) {
+  background-color: #f08a24;
+}
+
+.status-done:has(input:checked) {
+  background-color: #3fa66b;
+}
+
+/* Contour visible quand on se déplace au clavier (touche Tab puis flèches) */
+.status-switch label:has(input:focus-visible) {
+  outline: 2px solid var(--pink-text);
+  outline-offset: 2px;
 }
 
 /* Message affiché quand il n'y a encore aucune demande */
 .requests-empty {
   text-align: center;
   padding: 30px;
+}
+
+/* ---------------------------------------------------------
+   Page des demandes sur les écrans de moins de 1500px :
+   le tableau complet (10 colonnes) ne tient plus, il devient des cartes, une carte par demande.
+   Les cartes se rangent côte à côte s'il y a la place (3 sur un portable, 2 sur tablette, 1 sur téléphone).
+   Le titre de chaque colonne est réécrit au-dessus de sa case (td::before).
+   --------------------------------------------------------- */
+@media only screen and (max-width: 1500px) {
+  .requests-container {
+    max-width: 1300px;
+    padding: 24px 16px;
+    overflow-x: visible;
+  }
+
+  /* Le tableau, ses lignes et ses cases s'empilent comme de simples boîtes */
+  .requests-table,
+  .requests-table tbody,
+  .requests-table tr,
+  .requests-table td {
+    display: block;
+  }
+
+  /* Les cartes se placent en grille : chaque carte fait au moins 320px de large (ou toute la largeur sur un tout petit écran) */
+  .requests-table tbody {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 16px;
+    align-items: start;
+  }
+
+  .requests-table {
+    min-width: 0;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  /* La ligne des titres ne sert plus : chaque case a son propre titre */
+  .requests-table thead {
+    display: none;
+  }
+
+  /* Chaque demande = une carte blanche, avec les infos sur 2 colonnes */
+  .requests-table tbody tr,
+  .requests-table tbody tr:nth-child(even),
+  .requests-table tbody tr:hover {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+    margin: 0;
+    padding: 16px;
+    background-color: var(--white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow);
+  }
+
+  .requests-table td {
+    padding: 0;
+    border: none;
+    min-width: 0;
+    overflow-wrap: anywhere; /* un email très long passe à la ligne au lieu de dépasser */
+  }
+
+  /* L'email, le message et le statut prennent toute la largeur de la carte */
+  .requests-table td:nth-child(3),
+  .requests-table td:nth-child(7),
+  .requests-table td:nth-child(9) {
+    grid-column: 1 / -1;
+  }
+
+  .requests-table td:nth-child(7) {
+    min-width: 0;
+    order: 1; /* le message passe après la photo : Budget et Photo restent côte à côte */
+  }
+
+  .requests-table td:nth-child(9) {
+    order: 2; /* puis le statut */
+  }
+
+  /* Le bouton Supprimer, tout en bas à droite de la carte */
+  .requests-table td:nth-child(10) {
+    grid-column: 1 / -1;
+    order: 3;
+    text-align: right;
+  }
+
+  /* Le petit titre rose au-dessus de chaque info */
+  .requests-table td::before {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 11px;
+    color: var(--pink-text);
+    white-space: nowrap;
+  }
+
+  .requests-table td:nth-child(1)::before { content: "Date de la demande"; }
+  .requests-table td:nth-child(2)::before { content: "Nom"; }
+  .requests-table td:nth-child(3)::before { content: "Email"; }
+  .requests-table td:nth-child(4)::before { content: "Type"; }
+  .requests-table td:nth-child(5)::before { content: "Date souhaitée"; }
+  .requests-table td:nth-child(6)::before { content: "Budget"; }
+  .requests-table td:nth-child(7)::before { content: "Message"; }
+  .requests-table td:nth-child(8)::before { content: "Photo"; }
+  .requests-table td:nth-child(9)::before { content: "Statut"; }
+
+  /* L'interrupteur s'étale sur toute la largeur, les 3 choix ont la même taille */
+  .status-switch {
+    display: flex;
+  }
+
+  .status-switch label {
+    flex: 1;
+    text-align: center;
+  }
 }

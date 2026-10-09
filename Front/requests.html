@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    
+
 
     <main>
 
@@ -40,6 +40,7 @@
                         <th>Message</th>
                         <th>Photo</th>
                         <th>Statut</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody id="requestsBody"></tbody>
@@ -47,6 +48,13 @@
         </section>
 
     </main>
+
+    <dialog id="deleteRequestModal" class="modal-content">
+        <p>Êtes-vous sûre de vouloir supprimer cette demande ?</p>
+        <button id="cancelDeleteRequest" type="button" class="btn-cancel">Annuler</button>
+        <button id="confirmDeleteRequest" type="button" class="btn-danger">Supprimer</button>
+    </dialog>
+
     <script src="js/utils.js"></script>
     <script src="js/requests.js"></script>
 
