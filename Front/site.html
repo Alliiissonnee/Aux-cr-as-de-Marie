@@ -23,14 +23,22 @@
     <nav>
       <button id="burgerToggle" class="burger-toggle" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
       <div class="nav-links" id="navLinks">
+        <button data-filter="all" class="active">Tout</button>
         <button data-filter="bebe">Bébé</button>
         <button data-filter="doudou">Doudou</button>
         <button data-filter="tricot-couture">Tricot-couture</button>
         <button data-filter="accessoires">Accessoires</button>
-        <button data-filter="all" class="active">Tout</button>
         <button id="openRequestModal" type="button">Demande personnalisée</button>
         <input class="search" type="search" id="searchInput" placeholder="Rechercher">
       </div>
+
+      <button id="cartToggle" class="cart-toggle" aria-label="Voir le panier">
+        <svg class="cart-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path fill="currentColor"
+            d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L20.76 5.4l-1.75-1-3.58 6.6H8.53L4.54 2H1zM17 18c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
+        </svg>
+        <span id="cartCount">0</span>
+      </button>
       <button id="connexion_admin"><img src="media/cadenas.png" alt="Connexion admin"></button>
     </nav>
 
@@ -145,6 +153,14 @@
     </article>
 
   </dialog>
+
+  <dialog id="cartModal" class="modal-content">
+    <h2>Mon panier</h2>
+    <div id="cartItems"></div>
+    <p id="cartTotal"></p>
+    <button type="button" id="closeCart" class="btn-cancel">Fermer</button>
+  </dialog>
+
 
   <script src="js/utils.js"></script>
   <script src="js/site.js"></script>

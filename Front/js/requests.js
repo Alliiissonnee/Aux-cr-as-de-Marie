@@ -117,16 +117,16 @@ cancelDeleteRequestButton.addEventListener('click', () => {
 });
 
 // Le bouton supprimer supprime la demande
-const confirmDeleteRequestButton = document.getElementById('confirmRequestDelete');
+const confirmDeleteRequestButton = document.getElementById('confirmDeleteRequest');
 confirmDeleteRequestButton.addEventListener('click', () => {
-  const id = requestToDelete.querySelector('.delete-request').dataset.id;
+  const id = rowToDelete.querySelector('.delete-request').dataset.id;
   const formData = new FormData();
   formData.append('id', id);
   fetch('api/delete_request.php', { method: 'POST', body: formData })
     .then(response => response.text())
     .then(text => {
       console.log(text);
-      requestToDelete.remove();
+      rowToDelete.remove();
       deleteRequestModal.close();
     });
 });

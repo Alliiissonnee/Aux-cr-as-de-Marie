@@ -221,6 +221,24 @@ button:active {
   display: block;
 }
 
+/* Bouton panier : icône + nombre d'articles */
+.cart-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+}
+
+.cart-icon {
+  color: var(--white);
+  flex-shrink: 0;
+}
+
+#cartCount {
+  font-size: var(--text);
+  font-weight: bold;
+}
+
 
 /* =========================================================
    CARTES DES CRÉATIONS
@@ -578,6 +596,49 @@ dialog::backdrop {
   }
 }
 
+
+/* =========================================================
+   PANIER
+   ========================================================= */
+#cartModal {
+  width: 480px;
+}
+
+#cartItems {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-bottom: 16px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cart-item img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: var(--radius-small);
+  flex-shrink: 0;
+}
+
+.cart-item span:first-of-type {
+  flex: 1;
+  font-family: var(--font-text);
+  color: var(--gray-text);
+}
+
+#cartTotal {
+  font-family: var(--font-text);
+  font-weight: bold;
+  color: var(--pink-text);
+  text-align: right;
+}
 
 /* =========================================================
    DEMANDE PERSONNALISÉE (modale du site public)
