@@ -223,3 +223,18 @@ cartToggle.addEventListener('click', () => {
 closeCartButton.addEventListener('click', () => {
   cartModal.close();
 });
+
+function removeFromCart(id) {
+  const cart = getCart().filter(item => item.id !== id);
+  saveCart(cart);
+  renderCart();
+  updateCartCount();
+}
+
+const cartItems = document.getElementById('cartItems');
+cartItems.addEventListener('click', (event) => {
+  if (event.target.matches('.btn-remove-cart')) {
+    const id = Number(event.target.dataset.id);
+    removeFromCart(id);
+  }
+});
