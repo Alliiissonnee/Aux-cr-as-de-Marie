@@ -64,6 +64,8 @@ services:
       MAIL_ENCRYPTION: ${MAIL_ENCRYPTION:-}
       MAIL_FROM: ${MAIL_FROM:-site@auxcreasdemarie.local}
       MAIL_TO: ${MAIL_TO:-marie@auxcreasdemarie.local}
+      # Clé secrète Stripe (mode test), lue depuis le fichier .env
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
     depends_on:
       - mysql
       - mailpit

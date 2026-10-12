@@ -150,10 +150,10 @@ function saveCart(cart) {
 
 function addToCart(id, name, price, image) {
   const cart = getCart();
-  const existant = cart.find(item => item.id === id);
+  const existing = cart.find(item => item.id === id);
 
-  if (existant) {
-    existant.quantity += 1;
+  if (existing) {
+    existing.quantity += 1;
   } else {
     cart.push({ id: id, name: name, price: price, image: image, quantity: 1 });
   }
@@ -161,6 +161,9 @@ function addToCart(id, name, price, image) {
   updateCartCount();
 }
 
+const photoModal = document.getElementById('photoModal');
+const photoModalImg = document.getElementById('photoModalImage');
+const closePhoto = document.getElementById('closePhoto');
 const cardsContainer = document.querySelector('.cards-container');
 cardsContainer.addEventListener('click', (event) => {
   if (event.target.matches('.btn-addToCart')) {
@@ -171,7 +174,16 @@ cardsContainer.addEventListener('click', (event) => {
     const price = Number(card.dataset.price);
     addToCart(id, name, price, image);
   }
+  if (event.target.matches('.card img')) {
+    photoModalImg.src = event.target.src;
+    photoModalImg.alt = event.target.alt;
+    photoModal.showModal();
+  }
 })
+
+closePhoto.addEventListener('click', () => {
+  photoModal.close();
+});
 
 function updateCartCount() {
   const cart = getCart();
@@ -190,13 +202,26 @@ function renderCart() {
   const cart = getCart();
   const cartItems = document.getElementById('cartItems');
 
+  if (cart.length === 0) {
+    cartItems.innerHTML = '<li>Votre panier est vide.</li>';
+    document.getElementById('cartTotal').textContent = '';
+    document.getElementById('openOrder').hidden = true;
+    return;
+  }
+  document.getElementById('openOrder').hidden = false;
+
   const itemsHTML = cart.map(item => `
-    <div class="cart-item" data-id="${item.id}">
-      <img src="uploads/${item.image}" alt="${item.name}">
-      <span>${item.name}</span>
-      <span>${item.quantity} x ${item.price}€</span>
-      <button class="btn-remove-cart" data-id="${item.id}">Retirer</button>
-    </div>
+    <li class="cart-item" data-id="${escapeHtml(item.id)}">
+      <img src="uploads/${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}">
+      <span>${escapeHtml(item.name)}</span>
+      <span>
+        <button type="button" class="btn-decrease" data-id="${escapeHtml(item.id)}">-</button>
+        ${escapeHtml(item.quantity)}
+        <button type="button" class="btn-increase" data-id="${escapeHtml(item.id)}">+</button>
+        x ${escapeHtml(item.price.toFixed(2))}€
+        </span>
+      <button class="btn-remove-cart" data-id="${escapeHtml(item.id)}">Retirer</button>
+    </li>
   `);
 
   cartItems.innerHTML = itemsHTML.join('');
@@ -207,7 +232,7 @@ function renderCart() {
     total += item.price * item.quantity;
   });
 
-  document.getElementById('cartTotal').textContent = `Total : ${total}€`;
+  document.getElementById('cartTotal').textContent = `Total : ${escapeHtml(total.toFixed(2))}€`;
 
 }
 
@@ -231,10 +256,60 @@ function removeFromCart(id) {
   updateCartCount();
 }
 
+// Modifier la quantité d'un article dans le panier
+function changeQuantity(id, change) {
+  const cart = getCart();
+  const item = cart.find(item => item.id === id);
+  item.quantity += change;
+  if (item.quantity <= 0) {
+    removeFromCart(id);
+    return;
+  }
+  saveCart(cart);
+  renderCart();
+  updateCartCount();
+}
+
+
 const cartItems = document.getElementById('cartItems');
 cartItems.addEventListener('click', (event) => {
   if (event.target.matches('.btn-remove-cart')) {
     const id = Number(event.target.dataset.id);
     removeFromCart(id);
   }
+  if (event.target.matches('.btn-increase')) {
+    const id = Number(event.target.dataset.id);
+    changeQuantity(id, 1);
+  }
+  if (event.target.matches('.btn-decrease')) {
+    const id = Number(event.target.dataset.id);
+    changeQuantity(id, -1);
+  }
 });
+
+// Ouvrir la modal formulaire 
+const orderModal = document.getElementById('orderModal');
+const orderForm = document.getElementById('orderForm');
+const openOrder = document.getElementById('openOrder');
+const cancelOrder = document.getElementById('cancelOrder');
+openOrder.addEventListener('click', (event) => {
+  cartModal.close();
+  orderModal.showModal();
+})
+
+// Annuler ferme la modal du du form
+cancelOrder.addEventListener('click', (event) => {
+  orderModal.close();
+})
+
+orderForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const formData = new FormData(orderForm);
+  const items = getCart().map(item => ({ id: item.id, quantity: item.quantity }));
+  formData.append('items', JSON.stringify(items));
+  fetch('api/create_order.php', {method: 'POST', body: formData})
+  .then(response => response.text())
+  .then(text => {
+    console.log(text);
+  });
+})

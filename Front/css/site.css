@@ -253,6 +253,9 @@ button:active {
 
 .card {
   width: 260px;
+  /* L'image puis le contenu, empilés en colonne */
+  display: flex;
+  flex-direction: column;
   background-color: var(--white);
   border-radius: var(--radius-card);
   overflow: hidden;
@@ -275,6 +278,11 @@ button:active {
 .card-content {
   padding: 16px;
   text-align: center;
+  /* Le contenu remplit toute la hauteur de la carte (les cartes d'une même ligne ont la même hauteur) */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card-content h3 {
@@ -289,6 +297,9 @@ button:active {
   color: var(--gray-text);
   font-size: var(--text);
   margin: 0 0 12px 0;
+  /* La description prend toute la place libre : le prix et les boutons sont poussés en bas,
+     donc ils sont à la même hauteur sur toutes les cartes, même si une description est plus longue */
+  flex: 1;
 }
 
 .card-price {
@@ -454,6 +465,12 @@ button:active {
   margin-top: 12px;
 }
 
+/* "Ajouter au panier" : sur sa propre ligne, sous le prix, avec un peu d'espace */
+.card-content .btn-addToCart {
+  display: block;
+  margin: 12px auto 0 auto; /* auto à gauche et à droite : le bouton est centré */
+}
+
 /* Taille des boutons sur les cartes */
 .card-content button,
 .requests-table .delete-request {
@@ -536,6 +553,11 @@ dialog::backdrop {
     font-size: 18px;
   }
 
+  /* Le panier se range à droite, à côté du cadenas (au lieu de flotter au milieu) */
+  .cart-toggle {
+    margin-left: auto;
+  }
+
   /* Les liens du menu sont cachés, et s'affichent en colonne quand on ouvre le burger */
   .nav-links {
     display: none;
@@ -610,27 +632,74 @@ dialog::backdrop {
   gap: 12px;
   max-height: 50vh;
   overflow-y: auto;
-  margin-bottom: 16px;
+  margin: 0 0 16px 0;
+  padding: 0; /* enlève le retrait à gauche qu'un navigateur met sur toutes les listes */
+  list-style: none; /* enlève les puces (•) */
+  font-family: var(--font-text);
+  color: var(--gray-text);
 }
 
+/* Un article du panier, rangé en grille :
+   [ image ] [ nom            ] [ Retirer ]
+   [ image ] [ 2 x 87.00€     ] [ Retirer ]
+   Le nom a toute la largeur du milieu, même sur un petit téléphone. */
 .cart-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  grid-template-areas:
+    "image name button"
+    "image quantity button";
+  column-gap: 12px;
+  row-gap: 2px;
   align-items: center;
-  gap: 12px;
 }
 
 .cart-item img {
+  grid-area: image;
   width: 60px;
   height: 60px;
   object-fit: cover;
   border-radius: var(--radius-small);
-  flex-shrink: 0;
+}
+
+.cart-item span {
+  font-family: var(--font-text);
+  color: var(--gray-text);
 }
 
 .cart-item span:first-of-type {
-  flex: 1;
-  font-family: var(--font-text);
-  color: var(--gray-text);
+  grid-area: name;
+  align-self: end;
+  min-width: 0;
+  overflow-wrap: break-word; /* un mot très long passe à la ligne au lieu de dépasser */
+}
+
+.cart-item span:nth-of-type(2) {
+  grid-area: quantity;
+  align-self: start;
+  font-size: var(--text-small);
+}
+
+/* ">" : seulement le bouton Retirer (posé directement dans l'article), pas les boutons + et − */
+.cart-item > button {
+  grid-area: button;
+}
+
+/* Petits boutons ronds − et + autour de la quantité */
+.cart-item .btn-decrease,
+.cart-item .btn-increase {
+  width: 24px;
+  height: 24px;
+  margin: 0 4px;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 14px;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.cart-item .btn-decrease {
+  margin-left: 0;
 }
 
 #cartTotal {
@@ -638,6 +707,75 @@ dialog::backdrop {
   font-weight: bold;
   color: var(--pink-text);
   text-align: right;
+}
+
+/* Les boutons principaux de la commande ("Commander" et "Payer") en rose vif,
+   pour qu'on les repère tout de suite */
+.modal-content #openOrder,
+.modal-content #orderForm button[type="submit"] {
+  background-color: var(--pink-text);
+  border-color: var(--pink-text);
+  color: var(--white);
+}
+
+.modal-content #openOrder:hover,
+.modal-content #orderForm button[type="submit"]:hover {
+  background-color: var(--pink);
+  border-color: var(--pink);
+}
+
+/* =========================================================
+   PHOTO EN GRAND (clic sur la photo d'une carte)
+   ========================================================= */
+
+/* Sur le site public, la loupe au survol indique qu'on peut agrandir la photo */
+.cards-container .card img {
+  cursor: zoom-in;
+}
+
+/* La fenêtre elle-même est transparente : on ne voit que la photo, sur fond sombre */
+.photo-modal {
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 95vw;
+  max-height: 95vh;
+  overflow: visible; /* le bouton ✕ peut dépasser un peu dans le coin */
+}
+
+.photo-modal::backdrop {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+/* La photo entière, la plus grande possible sans dépasser de l'écran ni être déformée */
+.photo-modal img {
+  display: block;
+  max-width: 95vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-window);
+}
+
+/* Bouton ✕ rond, posé dans le coin en haut à droite de la photo */
+.photo-modal #closePhoto {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--white);
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--glass-border);
+}
+
+.photo-modal #closePhoto:hover {
+  background-color: var(--pink-text);
 }
 
 /* =========================================================

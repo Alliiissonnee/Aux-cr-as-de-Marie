@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Miranda+Sans:wght@700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/site.css">
+  <link rel="icon" href="media/favicon.svg" type="image/svg+xml">
 </head>
 
 <body>
@@ -156,11 +157,29 @@
 
   <dialog id="cartModal" class="modal-content">
     <h2>Mon panier</h2>
-    <div id="cartItems"></div>
+    <ul id="cartItems"></ul>
     <p id="cartTotal"></p>
+    <button type="button" id="openOrder">Commander</button>
     <button type="button" id="closeCart" class="btn-cancel">Fermer</button>
   </dialog>
 
+  <dialog id="orderModal" class="modal-content">
+    <h2>Mes coordonnées</h2>
+    <form id="orderForm">
+      <input type="text" name="customer_name" placeholder="Nom et prénom" autocomplete="name" required>
+      <input type="email" name="email" placeholder="Adresse email" autocomplete="email" required>
+      <input type="text" name="address" placeholder="Numéro et rue" autocomplete="street-address" required>
+      <input type="text" name="postal_code" placeholder="Code postal" autocomplete="postal-code" required>
+      <input type="text" name="city" placeholder="Ville" autocomplete="address-level2" required>
+      <button type="button" id="cancelOrder" class="btn-cancel">Annuler</button>
+      <button type="submit">Payer</button>
+    </form>
+  </dialog>
+
+  <dialog id="photoModal" class="photo-modal">
+    <img id="photoModalImage" src="" alt="">
+    <button type="button" id="closePhoto" aria-label="Fermer la photo">✕</button>
+  </dialog>
 
   <script src="js/utils.js"></script>
   <script src="js/site.js"></script>

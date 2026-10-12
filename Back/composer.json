@@ -1,6 +1,7 @@
 {
     "description": "Bibliothèques PHP du site Aux créas de Marie (installées dans l'image Docker)",
     "require": {
-        "phpmailer/phpmailer": "^6.9"
+        "phpmailer/phpmailer": "^6.9",
+        "stripe/stripe-php": "^17.0"
     }
 }

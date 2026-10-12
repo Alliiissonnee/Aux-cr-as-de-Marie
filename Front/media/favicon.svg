@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Favicon : une pelote de laine rose avec une aiguille à crochet, aux couleurs du site -->
+  <defs>
+    <!-- Les tours de fil sont coupés au bord de la pelote -->
+    <clipPath id="ball">
+      <circle cx="30" cy="33" r="25"/>
+    </clipPath>
+  </defs>
+  <!-- Le fil qui dépasse de la pelote -->
+  <path d="M44 53 C 50 59, 56 55, 61 61" fill="none" stroke="#c2549a" stroke-width="4" stroke-linecap="round"/>
+  <!-- La pelote -->
+  <circle cx="30" cy="33" r="25" fill="#c2549a"/>
+  <!-- Les tours de fil sur la pelote -->
+  <g clip-path="url(#ball)" fill="none" stroke="#f6d4ff" stroke-width="3.5" stroke-linecap="round">
+    <path d="M0 20 C 18 32, 40 30, 64 14"/>
+    <path d="M0 34 C 18 46, 42 44, 64 28"/>
+    <path d="M4 52 C 22 60, 40 58, 60 44"/>
+    <path d="M20 2 C 8 22, 10 46, 26 66"/>
+  </g>
+  <!-- L'aiguille à crochet, plantée en travers de la pelote (contour foncé pour rester lisible en tout petit) -->
+  <g fill="none" stroke-linecap="round">
+    <path d="M14 50 L 52 8 C 54 5, 59 6, 58 10" stroke="#7a2e5c" stroke-width="6.5"/>
+    <path d="M14 50 L 52 8 C 54 5, 59 6, 58 10" stroke="#fff4c7" stroke-width="3.5"/>
+  </g>
+</svg>
