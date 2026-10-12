@@ -128,6 +128,8 @@ $session = $stripe->checkout->sessions->create([
 ]);
 
 $stmt = $pdo->prepare("UPDATE orders SET stripe_session_id = :session_id WHERE id = :id");
-$stmt->execute(['id'=> $id, 'status' => $status]);
+$stmt->execute(['session_id' => $session->id, 'id' => $orderId]);
+echo $session->url;
+
 
 
