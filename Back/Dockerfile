@@ -20,6 +20,13 @@ RUN echo "upload_max_filesize = 10M" > /usr/local/etc/php/conf.d/uploads.ini \
 RUN echo "display_errors = Off" > /usr/local/etc/php/conf.d/errors.ini \
  && echo "log_errors = On" >> /usr/local/etc/php/conf.d/errors.ini
 
+# Pendant le développement : le navigateur doit toujours vérifier s'il existe une version plus récente
+# des fichiers HTML, CSS et JS (sinon il garde l'ancienne en mémoire, et nos modifications "ne marchent pas").
+# "no-cache" ne veut pas dire "ne jamais garder" : il garde le fichier, mais demande au serveur
+# s'il a changé avant de s'en servir.
+RUN a2enmod headers \
+ && printf '<FilesMatch "\\.(html|css|js)$">\n    Header set Cache-Control "no-cache"\n</FilesMatch>\n' > /etc/apache2/conf-enabled/no-cache.conf
+
 # Composer : le "magasin" de bibliothèques PHP. On l'utilise pour installer PHPMailer (envoi d'emails).
 # Les bibliothèques sont installées dans /var/www/vendor, en dehors du site (/var/www/html) :
 # elles ne sont donc pas accessibles depuis le navigateur.

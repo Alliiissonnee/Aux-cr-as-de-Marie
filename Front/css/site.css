@@ -725,11 +725,38 @@ dialog::backdrop {
 }
 
 /* =========================================================
+   PAGE "MERCI POUR VOTRE COMMANDE" (order_success.html, dans une carte .login-card)
+   ========================================================= */
+#orderMessage {
+  font-family: var(--font-text);
+  font-size: 16px;
+  color: var(--gray-text);
+  line-height: 1.5;
+  margin: 0 0 24px 0;
+}
+
+/* Le lien "Retour aux créations" : sur fond blanc, il prend le rose du site (sinon blanc sur blanc) */
+.login-card .nav-link {
+  margin: 0;
+  background-color: var(--pink-text);
+  border-color: var(--pink-text);
+  color: var(--white);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.login-card .nav-link:hover {
+  background-color: var(--pink);
+  border-color: var(--pink);
+}
+
+/* =========================================================
    PHOTO EN GRAND (clic sur la photo d'une carte)
    ========================================================= */
 
-/* Sur le site public, la loupe au survol indique qu'on peut agrandir la photo */
-.cards-container .card img {
+/* La loupe au survol indique qu'on peut agrandir la photo.
+   Seulement sur les pages qui ont la fenêtre photo (le site public), pas dans l'admin. */
+body:has(#photoModal) .cards-container .card img {
   cursor: zoom-in;
 }
 
@@ -955,6 +982,19 @@ dialog::backdrop {
   background-color: #3fa66b;
 }
 
+/* Les 3 positions du statut d'une commande (page des commandes) */
+.status-pending:has(input:checked) {
+  background-color: var(--gray); /* en attente de paiement : rien à faire pour l'instant */
+}
+
+.status-paid:has(input:checked) {
+  background-color: #f08a24; /* payée : Marie doit la préparer et l'envoyer */
+}
+
+.status-shipped:has(input:checked) {
+  background-color: #3fa66b; /* expédiée : terminé */
+}
+
 /* Contour visible quand on se déplace au clavier (touche Tab puis flèches) */
 .status-switch label:has(input:focus-visible) {
   outline: 2px solid var(--pink-text);
@@ -972,6 +1012,7 @@ dialog::backdrop {
    le tableau complet (10 colonnes) ne tient plus, il devient des cartes, une carte par demande.
    Les cartes se rangent côte à côte s'il y a la place (3 sur un portable, 2 sur tablette, 1 sur téléphone).
    Le titre de chaque colonne est réécrit au-dessus de sa case (td::before).
+   (":not(.orders-table)" : ces règles ne concernent pas le tableau des commandes, qui a les siennes plus bas)
    --------------------------------------------------------- */
 @media only screen and (max-width: 1500px) {
   .requests-container {
@@ -981,22 +1022,22 @@ dialog::backdrop {
   }
 
   /* Le tableau, ses lignes et ses cases s'empilent comme de simples boîtes */
-  .requests-table,
-  .requests-table tbody,
-  .requests-table tr,
-  .requests-table td {
+  .requests-table:not(.orders-table),
+  .requests-table:not(.orders-table) tbody,
+  .requests-table:not(.orders-table) tr,
+  .requests-table:not(.orders-table) td {
     display: block;
   }
 
   /* Les cartes se placent en grille : chaque carte fait au moins 320px de large (ou toute la largeur sur un tout petit écran) */
-  .requests-table tbody {
+  .requests-table:not(.orders-table) tbody {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
     gap: 16px;
     align-items: start;
   }
 
-  .requests-table {
+  .requests-table:not(.orders-table) {
     min-width: 0;
     background: none;
     box-shadow: none;
@@ -1005,14 +1046,14 @@ dialog::backdrop {
   }
 
   /* La ligne des titres ne sert plus : chaque case a son propre titre */
-  .requests-table thead {
+  .requests-table:not(.orders-table) thead {
     display: none;
   }
 
   /* Chaque demande = une carte blanche, avec les infos sur 2 colonnes */
-  .requests-table tbody tr,
-  .requests-table tbody tr:nth-child(even),
-  .requests-table tbody tr:hover {
+  .requests-table:not(.orders-table) tbody tr,
+  .requests-table:not(.orders-table) tbody tr:nth-child(even),
+  .requests-table:not(.orders-table) tbody tr:hover {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px 16px;
@@ -1023,7 +1064,7 @@ dialog::backdrop {
     box-shadow: var(--shadow);
   }
 
-  .requests-table td {
+  .requests-table:not(.orders-table) td {
     padding: 0;
     border: none;
     min-width: 0;
@@ -1031,30 +1072,30 @@ dialog::backdrop {
   }
 
   /* L'email, le message et le statut prennent toute la largeur de la carte */
-  .requests-table td:nth-child(3),
-  .requests-table td:nth-child(7),
-  .requests-table td:nth-child(9) {
+  .requests-table:not(.orders-table) td:nth-child(3),
+  .requests-table:not(.orders-table) td:nth-child(7),
+  .requests-table:not(.orders-table) td:nth-child(9) {
     grid-column: 1 / -1;
   }
 
-  .requests-table td:nth-child(7) {
+  .requests-table:not(.orders-table) td:nth-child(7) {
     min-width: 0;
     order: 1; /* le message passe après la photo : Budget et Photo restent côte à côte */
   }
 
-  .requests-table td:nth-child(9) {
+  .requests-table:not(.orders-table) td:nth-child(9) {
     order: 2; /* puis le statut */
   }
 
   /* Le bouton Supprimer, tout en bas à droite de la carte */
-  .requests-table td:nth-child(10) {
+  .requests-table:not(.orders-table) td:nth-child(10) {
     grid-column: 1 / -1;
     order: 3;
     text-align: right;
   }
 
   /* Le petit titre rose au-dessus de chaque info */
-  .requests-table td::before {
+  .requests-table:not(.orders-table) td::before {
     display: block;
     margin-bottom: 2px;
     font-size: 11px;
@@ -1062,23 +1103,128 @@ dialog::backdrop {
     white-space: nowrap;
   }
 
-  .requests-table td:nth-child(1)::before { content: "Date de la demande"; }
-  .requests-table td:nth-child(2)::before { content: "Nom"; }
-  .requests-table td:nth-child(3)::before { content: "Email"; }
-  .requests-table td:nth-child(4)::before { content: "Type"; }
-  .requests-table td:nth-child(5)::before { content: "Date souhaitée"; }
-  .requests-table td:nth-child(6)::before { content: "Budget"; }
-  .requests-table td:nth-child(7)::before { content: "Message"; }
-  .requests-table td:nth-child(8)::before { content: "Photo"; }
-  .requests-table td:nth-child(9)::before { content: "Statut"; }
+  .requests-table:not(.orders-table) td:nth-child(1)::before { content: "Date de la demande"; }
+  .requests-table:not(.orders-table) td:nth-child(2)::before { content: "Nom"; }
+  .requests-table:not(.orders-table) td:nth-child(3)::before { content: "Email"; }
+  .requests-table:not(.orders-table) td:nth-child(4)::before { content: "Type"; }
+  .requests-table:not(.orders-table) td:nth-child(5)::before { content: "Date souhaitée"; }
+  .requests-table:not(.orders-table) td:nth-child(6)::before { content: "Budget"; }
+  .requests-table:not(.orders-table) td:nth-child(7)::before { content: "Message"; }
+  .requests-table:not(.orders-table) td:nth-child(8)::before { content: "Photo"; }
+  .requests-table:not(.orders-table) td:nth-child(9)::before { content: "Statut"; }
 
   /* L'interrupteur s'étale sur toute la largeur, les 3 choix ont la même taille */
-  .status-switch {
+  .requests-table:not(.orders-table) .status-switch {
     display: flex;
   }
 
-  .status-switch label {
+  .requests-table:not(.orders-table) .status-switch label {
     flex: 1;
     text-align: center;
   }
+}
+
+/* =========================================================
+   PAGE DES COMMANDES (orders.html, réservée à l'admin)
+   Le tableau reprend le style des demandes (.requests-table) ; ici, seulement ce qui change.
+   ========================================================= */
+
+/* 6 colonnes seulement : le tableau tient sur un écran plus étroit que celui des demandes */
+.orders-table {
+  min-width: 0;
+}
+
+/* La liste des articles d'une commande, sans puces ni retrait */
+.orders-table ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.orders-table li + li {
+  margin-top: 4px; /* un petit espace entre deux articles */
+}
+
+/* Le total ne se coupe jamais en deux lignes */
+.orders-table td:nth-child(5) {
+  white-space: nowrap;
+  font-weight: bold;
+  color: var(--pink-text);
+}
+
+/* Sur tablette et téléphone (jusqu'à 900px) : une carte par commande */
+@media only screen and (max-width: 900px) {
+  .orders-table,
+  .orders-table tbody,
+  .orders-table tr,
+  .orders-table td {
+    display: block;
+  }
+
+  .orders-table {
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .orders-table thead {
+    display: none;
+  }
+
+  /* Les cartes côte à côte s'il y a la place (2 sur tablette, 1 sur téléphone) */
+  .orders-table tbody {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 16px;
+    align-items: start;
+  }
+
+  /* Chaque commande = une carte blanche, avec les infos sur 2 colonnes */
+  .orders-table tbody tr,
+  .orders-table tbody tr:nth-child(even),
+  .orders-table tbody tr:hover {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 16px;
+    padding: 16px;
+    background-color: var(--white);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow);
+  }
+
+  .orders-table td {
+    padding: 0;
+    border: none;
+    min-width: 0;
+    overflow-wrap: anywhere; /* un email très long passe à la ligne au lieu de dépasser */
+  }
+
+  /* Client, livraison, articles et statut prennent toute la largeur de la carte */
+  .orders-table td:nth-child(2),
+  .orders-table td:nth-child(3),
+  .orders-table td:nth-child(4),
+  .orders-table td:nth-child(6) {
+    grid-column: 1 / -1;
+  }
+
+  /* Ordre dans la carte : date et total en haut, côte à côte, puis le reste */
+  .orders-table td:nth-child(5) { order: -1; }
+  .orders-table td:nth-child(1) { order: -2; }
+
+  /* Le petit titre rose au-dessus de chaque info */
+  .orders-table td::before {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 11px;
+    font-weight: normal;
+    color: var(--pink-text);
+  }
+
+  .orders-table td:nth-child(1)::before { content: "Date"; }
+  .orders-table td:nth-child(2)::before { content: "Client"; }
+  .orders-table td:nth-child(3)::before { content: "Livraison"; }
+  .orders-table td:nth-child(4)::before { content: "Articles"; }
+  .orders-table td:nth-child(5)::before { content: "Total"; }
+  .orders-table td:nth-child(6)::before { content: "Statut"; }
 }

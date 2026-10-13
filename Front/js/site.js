@@ -307,10 +307,18 @@ orderForm.addEventListener('submit', (event) => {
   const formData = new FormData(orderForm);
   const items = getCart().map(item => ({ id: item.id, quantity: item.quantity }));
   formData.append('items', JSON.stringify(items));
-  fetch('api/create_order.php', {method: 'POST', body: formData})
-  .then(response => response.text())
-  .then(text => {
-    console.log(text);
-  });
-})
+  fetch('api/create_order.php', { method: 'POST', body: formData })
+    .then(response => {
+      response.text().then(text => {
+        if (response.ok) {
+          // Le serveur a répondu avec l'adresse de la page de paiement Stripe
+          window.location.href = text;
+        } else {
+          alert(text);
+        }
+      });
+    });
+
+});
+
 
