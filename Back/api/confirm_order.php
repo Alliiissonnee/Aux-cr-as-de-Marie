@@ -46,6 +46,12 @@ if ($stmt->rowCount() === 1) {
     foreach ($orderItems as $orderItem) {
        $recap .= "- " . $orderItem['quantity'] . " x " . $orderItem['name'] . " (" . $orderItem['unit_price'] . "€)\n";
     }
+    // La livraison choisie
+    if ($order['shipping_method'] === 'pickup') {
+        $recap .= "Livraison : retrait sur place\n";
+    } else {
+        $recap .= "Livraison : Colissimo (" . number_format($order['shipping_cost'], 2, ',', ' ') . " €)\n";
+    }
     $recap .= "\nTotal : " . $order['total'] . " €";
     
     // Un email qui ne part pas ne doit pas faire échouer la page "Merci" 
@@ -69,7 +75,7 @@ if ($stmt->rowCount() === 1) {
         $mail->Subject = 'Nouvelle commande n°' . $orderId . ' — Aux créas de Marie';
         $mail->Body = "Bonjour Marie,\n\n"
             . "Nouvelle commande payée !\n\n"
-            . "De" . $order['customer_name'] . ", " . $order['email'] . "\n\n"
+            . "De " . $order['customer_name'] . ", " . $order['email'] . "\n\n"
             . $recap . "\n\n"
             . "Livraison à :\n"
             . $order['address'] . "\n"

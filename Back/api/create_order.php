@@ -66,17 +66,41 @@ foreach ($items as $item) {
     ];
 }
 
+// Livraison : le serveur décide lui-même du prix (jamais le navigateur)
+$shippingPrices = [
+    'colissimo' => 5.90,
+    'pickup' => 0,
+];
+$shippingMethod = $_POST['shipping_method'] ?? '';
+
+if (!array_key_exists($shippingMethod, $shippingPrices)) {
+    http_response_code(400);
+    die("Merci de choisir un mode de livraison valide.");
+}
+
+$shippingCost = $shippingPrices[$shippingMethod];
+
+if ($shippingMethod === 'colissimo' && $total >= 50) {
+    $shippingCost = 0;
+}
+
+$total += $shippingCost;
+
+
+
 // Transaction : les 2 tables sont remplies ensemble, ou pas du tout
 $pdo->beginTransaction();
 
 // 1. Le haut du ticket
-$stmt = $pdo->prepare("INSERT INTO orders (customer_name, email, address, postal_code, city, total) VALUES (:customer_name, :email, :address, :postal_code, :city, :total)");
+$stmt = $pdo->prepare("INSERT INTO orders (customer_name, email, address, postal_code, city, shipping_method, shipping_cost, total) VALUES (:customer_name, :email, :address, :postal_code, :city, :shipping_method, :shipping_cost, :total)");
 $stmt->execute([
     'customer_name' => $customerName,
     'email' => $email,
     'address' => $address,
     'postal_code' => $postalCode,
     'city' => $city,
+    'shipping_method' => $shippingMethod,
+    'shipping_cost' => $shippingCost,
     'total' => $total
 ]);
 
@@ -112,6 +136,18 @@ foreach ($orderItems as $orderItem) {
             'unit_amount' => (int) round($orderItem['unit_price'] * 100),
         ],
         'quantity' => $orderItem['quantity'],
+    ];
+}
+
+// La livraison, seulement si elle est payante (Colissimo sous 50 €)
+if ($shippingCost > 0) {
+    $lineItems[] = [
+        'price_data' => [
+            'currency' => 'eur',
+            'product_data' => ['name' => 'Livraison Colissimo'],
+            'unit_amount' => (int) round($shippingCost * 100),
+        ],
+        'quantity' => 1,
     ];
 }
 

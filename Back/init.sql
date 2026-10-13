@@ -44,8 +44,11 @@ CREATE TABLE IF NOT EXISTS orders (
     address VARCHAR(255) NOT NULL,
     postal_code VARCHAR(10) NOT NULL,
     city VARCHAR(100) NOT NULL,
+    shipping_method VARCHAR(20) NOT NULL DEFAULT 'colissimo',
+    shipping_cost DECIMAL(10,2) NOT NULL DEFAULT 0,
     total DECIMAL(10,2) NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'pending',
+    tracking_number VARCHAR(20) NULL,
     stripe_session_id VARCHAR(255) NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

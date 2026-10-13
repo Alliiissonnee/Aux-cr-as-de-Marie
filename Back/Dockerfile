@@ -20,6 +20,9 @@ RUN echo "upload_max_filesize = 10M" > /usr/local/etc/php/conf.d/uploads.ini \
 RUN echo "display_errors = Off" > /usr/local/etc/php/conf.d/errors.ini \
  && echo "log_errors = On" >> /usr/local/etc/php/conf.d/errors.ini
 
+# Les dates écrites par PHP (date()) sont à l'heure de Paris, comme MySQL
+RUN echo "date.timezone = Europe/Paris" > /usr/local/etc/php/conf.d/timezone.ini
+
 # Pendant le développement : le navigateur doit toujours vérifier s'il existe une version plus récente
 # des fichiers HTML, CSS et JS (sinon il garde l'ancienne en mémoire, et nos modifications "ne marchent pas").
 # "no-cache" ne veut pas dire "ne jamais garder" : il garde le fichier, mais demande au serveur

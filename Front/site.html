@@ -171,6 +171,18 @@
       <input type="text" name="address" placeholder="Numéro et rue" autocomplete="street-address" required>
       <input type="text" name="postal_code" placeholder="Code postal" autocomplete="postal-code" required>
       <input type="text" name="city" placeholder="Ville" autocomplete="address-level2" required>
+      <fieldset class="shipping-choice">
+        <legend>Livraison</legend>
+        <label>
+          <input type="radio" name="shipping_method" value="colissimo" checked>
+          Colissimo à domicile — 5,90 € (offert dès 50 €)
+        </label>
+        <label>
+          <input type="radio" name="shipping_method" value="pickup">
+          Retrait en main propre chez Marie — gratuit (Bressuire 79)
+        </label>
+      </fieldset>
+
       <button type="button" id="cancelOrder" class="btn-cancel">Annuler</button>
       <button type="submit">Payer</button>
     </form>

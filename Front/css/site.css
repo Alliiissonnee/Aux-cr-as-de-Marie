@@ -2,7 +2,7 @@
   --pink-light: #f6d4ff;
   --pink: #ffa0fe;
   --pink-dark: #ff8ffd;
-  --pink-text: #c2549a; /* rose soutenu, lisible sur fond rose clair */
+  --pink-text: #c2549a; 
   --red: #e76f8b;
   --red-dark: #d4506f;
   --white: #fff;
@@ -837,6 +837,60 @@ body:has(#photoModal) .cards-container .card img {
   accent-color: var(--pink); /* case cochée en rose */
 }
 
+/* Choix de la livraison (formulaire de commande) : chaque option est une petite carte cliquable */
+.shipping-choice {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 4px 0 0 0;
+  padding: 0;
+  border: none; /* enlève le cadre gris qu'un fieldset a par défaut */
+}
+
+.shipping-choice legend {
+  padding: 0;
+  margin-bottom: 8px;
+  font-family: var(--font-text);
+  font-size: var(--text);
+  color: var(--pink-text);
+}
+
+.modal-content .shipping-choice label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  padding: 10px 14px;
+  border: 2px solid var(--pink-light);
+  border-radius: var(--radius);
+  line-height: 1.4;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.shipping-choice input {
+  flex-shrink: 0;
+  margin: 0;
+  accent-color: var(--pink-text); /* rond coché en rose */
+}
+
+/* L'option choisie est entourée de rose */
+.modal-content .shipping-choice label:has(input:checked) {
+  border-color: var(--pink-text);
+  background-color: #fdf7ff;
+  color: var(--pink-text);
+}
+
+.modal-content .shipping-choice label:hover {
+  border-color: var(--pink);
+}
+
+/* Contour visible au clavier (touche Tab puis flèches) */
+.shipping-choice label:has(input:focus-visible) {
+  outline: 2px solid var(--pink-text);
+  outline-offset: 2px;
+}
+
 /* Le formulaire de demande est long : la modale défile si l'écran est petit */
 #requestModal {
   max-height: 90vh;
@@ -1143,6 +1197,91 @@ body:has(#photoModal) .cards-container .card img {
 
 .orders-table li + li {
   margin-top: 4px; /* un petit espace entre deux articles */
+}
+
+/* Le mode de livraison, en petite étiquette rose au-dessus de l'adresse */
+.orders-table td strong {
+  display: inline-block;
+  margin-bottom: 4px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--pink-light);
+  color: var(--pink-text);
+  white-space: nowrap;
+}
+
+/* Colissimo en bleu, pour le distinguer du retrait sur place (rose) */
+.orders-table td strong.shipping-colissimo {
+  background: #dcecff;
+  color: #2f6db3;
+}
+
+/* Le petit formulaire du numéro de suivi, sous l'adresse */
+.tracking-form {
+  display: inline-flex; /* "en ligne" : le bouton "Où est le colis ?" peut se placer à côté */
+  vertical-align: middle;
+  gap: 6px;
+  margin-top: 8px;
+  max-width: 230px;
+  margin-right: 6px; /* l'espace avec "Où est le colis ?" (rien à gauche si le bouton passe à la ligne) */
+}
+
+.tracking-form input {
+  flex: 1;
+  min-width: 0; /* la case peut rétrécir sur petit écran */
+  padding: 4px 10px;
+  border: 1px solid var(--pink);
+  border-radius: 999px;
+  font-family: var(--font-text);
+  font-size: 0.85em;
+  text-transform: uppercase; /* le numéro s'affiche en majuscules pendant la frappe */
+}
+
+.tracking-form input::placeholder {
+  text-transform: none;
+}
+
+.tracking-form input:focus {
+  outline: 2px solid var(--pink-text);
+  outline-offset: 1px;
+}
+
+/* "Envoyer" et "Où est le colis ?" : même style de bouton */
+.tracking-form button,
+.orders-table .btn-track {
+  margin: 0; /* annule la marge des boutons du site, qui étirait la case */
+  padding: 4px 12px;
+  border: none;
+  border-radius: 999px;
+  background: var(--pink-text);
+  color: var(--white);
+  font-family: var(--font-text);
+  font-size: 0.85em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tracking-form button:hover,
+.orders-table .btn-track:hover {
+  background: #a8437f;
+}
+
+/* "Où est le colis ?" se place juste à côté du formulaire (à la ligne s'il manque de place) */
+.orders-table .btn-track {
+  margin: 8px 0 0;
+  vertical-align: middle;
+}
+
+/* La réponse de La Poste */
+.tracking-status {
+  margin: 4px 0 0;
+  max-width: 340px;
+  font-size: 0.85em;
+  color: #2f6db3;
+}
+
+.tracking-status:empty {
+  display: none;
 }
 
 /* Le total ne se coupe jamais en deux lignes */

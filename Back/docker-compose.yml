@@ -66,6 +66,8 @@ services:
       MAIL_TO: ${MAIL_TO:-marie@auxcreasdemarie.local}
       # Clé secrète Stripe (mode test), lue depuis le fichier .env
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      # Clé de l'API Okapi de La Poste (suivi des colis). Vide = mode démo
+      OKAPI_KEY: ${OKAPI_KEY:-}
     depends_on:
       - mysql
       - mailpit
