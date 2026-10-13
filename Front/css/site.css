@@ -139,6 +139,18 @@ nav {
   display: contents;
 }
 
+/* Menu de l'admin : c'est une liste (ul > li), sans puces ;
+   les <li> s'effacent pour que les liens se comportent comme ceux de la page d'accueil */
+ul.nav-links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-links li {
+  display: contents;
+}
+
 .burger-toggle {
   display: none;
 }
@@ -569,6 +581,11 @@ dialog::backdrop {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+  }
+
+  /* Admin : le cadenas se range à droite, en face du burger */
+  .nav-links + #deconnexion_admin {
+    margin-left: auto;
   }
 
   .nav-links .search {
@@ -1291,8 +1308,9 @@ body:has(#photoModal) .cards-container .card img {
   color: var(--pink-text);
 }
 
-/* Sur tablette et téléphone (jusqu'à 900px) : une carte par commande */
-@media only screen and (max-width: 900px) {
+/* Sur tablette et téléphone (jusqu'à 980px) : une carte par commande
+   (au-dessus, le tableau a besoin de 900px + les marges : il dépassait entre 910 et 950px) */
+@media only screen and (max-width: 980px) {
   .orders-table,
   .orders-table tbody,
   .orders-table tr,
@@ -1494,4 +1512,191 @@ body:has(#photoModal) .cards-container .card img {
   .month-label {
     grid-column: 1 / -1;
   }
+}
+
+
+/* =========================================================
+   BANDEAU COOKIES (pages publiques)
+   ========================================================= */
+/* Posé en bas de l'écran, par-dessus la page, jusqu'à ce que la personne choisisse */
+.cookie-banner {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px 20px;
+  background-color: var(--white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-window);
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+  color: var(--gray-text);
+}
+
+/* "hidden" doit gagner contre le display: flex ci-dessus */
+.cookie-banner[hidden] {
+  display: none;
+}
+
+.cookie-banner p {
+  flex: 1 1 320px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Les 2 boutons ont EXACTEMENT le même style : refuser doit être aussi facile qu'accepter (CNIL) */
+.cookie-banner button {
+  margin: 0;
+  padding: 8px 22px;
+  border: none;
+  border-radius: 999px;
+  background: var(--pink-text);
+  color: var(--white);
+  font-weight: bold;
+  box-shadow: none;
+}
+
+.cookie-banner button:hover {
+  background: #a8437f;
+  color: var(--white);
+}
+
+/* Tablette et téléphone : le texte prend toute la ligne, les 2 boutons restent ensemble en dessous
+   (sinon, vers 600px, "Refuser" restait à côté du texte et "Accepter" tombait tout seul à la ligne) */
+@media only screen and (max-width: 720px) {
+  .cookie-banner p {
+    flex-basis: 100%;
+  }
+}
+
+
+/* =========================================================
+   PAGES LÉGALES (mentions-legales.html, confidentialite.html, cgv.html)
+   ========================================================= */
+.legal-page {
+  padding-bottom: 60px;
+}
+
+/* Une grande carte blanche, facile à lire */
+.legal-card {
+  max-width: 800px;
+  margin: 24px auto 0;
+  padding: 40px;
+  background-color: var(--white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-window);
+  font-family: var(--font-text);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--gray-text);
+}
+
+.legal-card h1 {
+  margin: 0 0 24px;
+  font-family: var(--font-title);
+  font-size: clamp(24px, 5vw, 36px);
+  color: var(--pink-text);
+  text-align: center;
+}
+
+.legal-card h2 {
+  margin: 32px 0 8px;
+  font-family: var(--font-title);
+  font-size: 20px;
+  color: var(--pink-text);
+}
+
+.legal-card p,
+.legal-card ul {
+  margin: 0 0 12px;
+}
+
+.legal-card li + li {
+  margin-top: 6px;
+}
+
+.legal-card a {
+  color: var(--pink-text);
+}
+
+/* L'encadré "site de démonstration" */
+.legal-demo {
+  padding: 12px 16px;
+  background-color: var(--pink-light);
+  border-radius: var(--radius);
+  font-size: var(--text-small);
+}
+
+/* Téléphone : la carte prend toute la largeur, avec moins de marge intérieure */
+@media only screen and (max-width: 600px) {
+  .legal-card {
+    margin: 16px 12px 0;
+    padding: 24px 18px;
+    font-size: 14px;
+  }
+
+  .legal-card h2 {
+    font-size: 18px;
+  }
+
+  .legal-card ul {
+    padding-left: 18px; /* moins de retrait : le texte des listes garde de la place */
+  }
+}
+
+
+/* =========================================================
+   PIED DE PAGE (pages publiques)
+   ========================================================= */
+/* Le fond de la page continue derrière le pied de page :
+   le dégradé de <main> finit en turquoise (#5ffbf1), le pied de page garde cette couleur */
+body:has(> .site-footer) {
+  background-color: #5ffbf1;
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end; /* les liens se rangent tout à droite */
+  align-items: center;
+  gap: 8px 24px;
+  padding: 24px 24px 32px;
+  background: transparent; /* on voit le fond de la page derrière */
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+}
+
+/* Les liens et le bouton "Gérer les cookies" ont la même allure : du texte rose prune, plus foncé au survol */
+.site-footer a,
+.site-footer button {
+  margin: 0;
+  padding: 4px 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  color: #a8437f; /* rose prune, assez foncé pour rester lisible sur le turquoise */
+  font-family: inherit;
+  font-size: inherit;
+  text-decoration: none;
+  letter-spacing: normal;
+  cursor: pointer;
+}
+
+.site-footer a:hover,
+.site-footer button:hover {
+  background: none;
+  color: #7a2e5c; /* au survol : prune plus foncé, sans soulignement */
+  text-decoration: none;
+  transform: none;
+  box-shadow: none;
 }

@@ -193,8 +193,29 @@
     <button type="button" id="closePhoto" aria-label="Fermer la photo">✕</button>
   </dialog>
 
+  <!-- Bandeau cookies : caché au départ, cookies.js l'affiche si la personne n'a pas encore choisi -->
+  <aside id="cookieBanner" class="cookie-banner" aria-label="Choix des cookies" hidden>
+    <p>
+      Ce site utilise Google Analytics pour savoir combien de personnes le visitent.
+      Ces cookies ne sont déposés que si vous les acceptez.
+    </p>
+    <button type="button" id="refuseCookies">Refuser</button>
+    <button type="button" id="acceptCookies">Accepter</button>
+  </aside>
+
+  <footer class="site-footer">
+    <a href="mentions-legales.html">Mentions légales</a>
+    <a href="cgv.html">CGV</a>
+    <a href="confidentialite.html">Confidentialité</a>
+    <button type="button" id="manageCookies">Gérer les cookies</button>
+  </footer>
+
+
+
   <script src="js/utils.js"></script>
   <script src="js/site.js"></script>
+  <script src="js/cookies.js"></script>
+
 </body>
 
 </html>

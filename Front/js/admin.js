@@ -7,6 +7,15 @@ fetch('api/session.php')
     }
   });
 
+// Menu burger (tablette et téléphone)
+const burgerToggle = document.getElementById('burgerToggle');
+const navLinks = document.getElementById('navLinks');
+
+burgerToggle.addEventListener('click', () => {
+  const isOpen = navLinks.classList.toggle('open');
+  burgerToggle.setAttribute('aria-expanded', isOpen);
+});
+
 const deleteModal = document.getElementById('deleteModal');
 const editModal = document.getElementById('editModal');
 const editForm = document.getElementById('editForm');

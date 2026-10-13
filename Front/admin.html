@@ -22,10 +22,14 @@
   <main>
 
     <nav>
-      <a href="orders.html" class="nav-link">Commandes</a>
-      <a href="stats.html" class="nav-link">Statistiques</a>
-      <a href="requests.html" class="nav-link">Demandes</a>
-      <button id="openAddModal" type="button">Ajouter une création</button>
+      <button id="burgerToggle" class="burger-toggle" aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+      <!-- Les liens du menu : une liste, rangée dans le burger sur tablette et téléphone -->
+      <ul class="nav-links" id="navLinks">
+        <li><a href="orders.html" class="nav-link">Commandes</a></li>
+        <li><a href="stats.html" class="nav-link">Statistiques</a></li>
+        <li><a href="requests.html" class="nav-link">Demandes</a></li>
+        <li><button id="openAddModal" type="button">Ajouter une création</button></li>
+      </ul>
       <button id="deconnexion_admin"><img src="media/cadenas.png" alt="deconnexion admin"></button>
     </nav>
 
