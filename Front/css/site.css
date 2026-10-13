@@ -1367,3 +1367,131 @@ body:has(#photoModal) .cards-container .card img {
   .orders-table td:nth-child(5)::before { content: "Total"; }
   .orders-table td:nth-child(6)::before { content: "Statut"; }
 }
+
+
+/* =========================================================
+   PAGE DES STATISTIQUES (stats.html, réservée à l'admin)
+   ========================================================= */
+.stats-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 16px 60px;
+  font-family: var(--font-text);
+  color: var(--gray-text);
+}
+
+/* Les titres "Ventes par mois" et "Top 5" */
+.stats-container h2 {
+  margin: 40px 0 16px;
+  font-family: var(--font-title);
+  font-size: clamp(20px, 3vw, 28px);
+  color: var(--pink-light);
+  text-align: center;
+}
+
+/* Les 3 chiffres clés : 3 cartes côte à côte (les unes sous les autres sur téléphone) */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats-cards li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 24px 16px;
+  background-color: var(--white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+}
+
+.stats-label {
+  font-size: var(--text-small);
+  color: var(--pink-text);
+}
+
+.stats-cards strong {
+  font-family: var(--font-title);
+  font-size: clamp(26px, 4vw, 36px);
+  color: var(--pink-text);
+  white-space: nowrap;
+}
+
+/* Les ventes par mois et le top 5 : une grande carte blanche chacun */
+.months-chart,
+.top-items {
+  margin: 0;
+  padding: 24px;
+  background-color: var(--white);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow);
+  font-size: var(--text);
+}
+
+/* Une ligne par mois : le nom | la barre | le montant */
+.months-chart {
+  list-style: none;
+}
+
+.months-chart li {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.months-chart li + li {
+  margin-top: 12px;
+}
+
+.month-label {
+  text-transform: capitalize; /* "octobre 2026" s'affiche "Octobre 2026" */
+}
+
+.month-bar {
+  justify-self: start; /* la largeur vient du JavaScript (style="width: …%") */
+  height: 22px;
+  min-width: 4px; /* un tout petit mois reste visible */
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--pink), var(--pink-text));
+}
+
+.month-value {
+  font-weight: bold;
+  color: var(--pink-text);
+  white-space: nowrap;
+}
+
+/* Le top 5 : la liste numérotée (1, 2, 3…) en rose */
+.top-items {
+  padding-left: 48px;
+}
+
+.top-items li {
+  padding: 8px 0;
+}
+
+.top-items li + li {
+  border-top: 1px solid var(--pink-light);
+}
+
+.top-items li::marker {
+  font-family: var(--font-title);
+  color: var(--pink-text);
+}
+
+/* Téléphone : le nom du mois passe au-dessus de sa barre */
+@media only screen and (max-width: 600px) {
+  .months-chart li {
+    grid-template-columns: 1fr auto;
+  }
+
+  .month-label {
+    grid-column: 1 / -1;
+  }
+}

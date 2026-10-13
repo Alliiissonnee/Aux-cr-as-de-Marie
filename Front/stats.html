@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aux créas de Marie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Miranda+Sans:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/site.css">
+    <link rel="icon" href="media/favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+
+
+    <main>
+
+        <nav>
+            <a href="admin.html" class="nav-link">Retour aux créations</a>
+            <button id="deconnexion_admin"><img src="media/cadenas.png" alt="deconnexion admin"></button>
+        </nav>
+
+        <section class="titre">
+            <h1 id="parallaxTitle">Les statistiques</h1>
+        </section>
+
+        <section class="stats-container">
+            <!-- Les 3 chiffres clés -->
+            <ul class="stats-cards">
+                <li>
+                    <span class="stats-label">Chiffre d'affaires</span>
+                    <strong id="statRevenue">–</strong>
+                </li>
+                <li>
+                    <span class="stats-label">Commandes</span>
+                    <strong id="statOrders">–</strong>
+                </li>
+                <li>
+                    <span class="stats-label">Panier moyen</span>
+                    <strong id="statAverage">–</strong>
+                </li>
+            </ul>
+
+            <h2>Ventes par mois</h2>
+            <ul id="monthsChart" class="months-chart"></ul>
+
+            <h2>Top 5 des créations</h2>
+            <ol id="topItems" class="top-items"></ol>
+        </section>
+
+
+    </main>
+
+    <script src="js/utils.js"></script>
+    <script src="js/stats.js"></script>
+
+</body>
+
+</html>
