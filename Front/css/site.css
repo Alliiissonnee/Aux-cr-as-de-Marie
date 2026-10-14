@@ -219,15 +219,15 @@ button:active {
 }
 
 /* Boutons ronds avec le cadenas */
-#connexion_admin,
-#deconnexion_admin {
+#loginButton,
+#logoutButton {
   padding: 10px;
   border-radius: 50%;
   line-height: 0;
 }
 
-#connexion_admin img,
-#deconnexion_admin img {
+#loginButton img,
+#logoutButton img {
   width: 20px;
   height: 20px;
   display: block;
@@ -584,7 +584,7 @@ dialog::backdrop {
   }
 
   /* Admin : le cadenas se range à droite, en face du burger */
-  .nav-links + #deconnexion_admin {
+  .nav-links + #logoutButton {
     margin-left: auto;
   }
 

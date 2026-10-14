@@ -68,7 +68,7 @@ filterButtons.forEach(button => {
   });
 });
 // En cliquant sur le cadenas on arrive sur la page login
-document.getElementById('connexion_admin').addEventListener('click', function () { window.location.href = "login.html"; });
+document.getElementById('loginButton').addEventListener('click', function () { window.location.href = "login.html"; });
 
 // Menu burger (mobile)
 const burgerToggle = document.getElementById('burgerToggle');
@@ -302,8 +302,14 @@ cancelOrder.addEventListener('click', (event) => {
   orderModal.close();
 })
 
+// Le bouton "Payer" du formulaire de commande
+const payButton = orderForm.querySelector('button[type="submit"]');
+
 orderForm.addEventListener('submit', (event) => {
   event.preventDefault();
+  // On bloque le bouton pendant l'envoi : un double-clic créerait 2 commandes
+  payButton.disabled = true;
+  payButton.textContent = 'Redirection vers le paiement…';
   const formData = new FormData(orderForm);
   const items = getCart().map(item => ({ id: item.id, quantity: item.quantity }));
   formData.append('items', JSON.stringify(items));
@@ -314,6 +320,8 @@ orderForm.addEventListener('submit', (event) => {
           // Le serveur a répondu avec l'adresse de la page de paiement Stripe
           window.location.href = text;
         } else {
+          payButton.disabled = false;
+          payButton.textContent = 'Payer';
           alert(text);
         }
       });

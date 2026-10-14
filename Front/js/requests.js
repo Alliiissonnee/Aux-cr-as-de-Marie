@@ -8,7 +8,7 @@ fetch('api/session.php')
     });
 
 // Deconnexion de l'admin en cliquant sur le cadenas et retour à la page d'accueil
-const logoutButton = document.getElementById('deconnexion_admin');
+const logoutButton = document.getElementById('logoutButton');
 logoutButton.addEventListener('click', () => {
     fetch('api/logout.php')
         .then(() => {

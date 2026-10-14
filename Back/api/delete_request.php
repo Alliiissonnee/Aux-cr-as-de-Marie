@@ -1,21 +1,21 @@
 <?php
-
+// Supprime une demande personnalisée et sa photo (réservé à l'admin)
 require __DIR__ . '/admin_check.php';
 require __DIR__ . '/config.php';
 
-$id = $_POST['id'];
+$id = (int) ($_POST['id'] ?? 0);
 
 $stmt = $pdo->prepare("SELECT photo FROM custom_requests WHERE id = :id");
 $stmt->execute(['id' => $id]);
-$ligne = $stmt->fetch();  
+$request = $stmt->fetch();  
 
-if ($ligne) {
+if ($request) {
     $stmt = $pdo->prepare("DELETE FROM custom_requests WHERE id = :id");
     $stmt->execute(['id' => $id]);
- if ($ligne['photo'] && file_exists(__DIR__ . '/../uploads/' . $ligne['photo'])) {
-        unlink (__DIR__ . '/../uploads/' . $ligne['photo']);
+    if ($request['photo'] && file_exists(__DIR__ . '/../uploads/' . $request['photo'])) {
+        unlink (__DIR__ . '/../uploads/' . $request['photo']);
     }
-    echo "La demande est bien supprimée";
+    echo "La demande a bien été supprimée";
 } else {
-    echo "La demande n'existe pas";
+    echo "Cette demande n'existe pas";
 }

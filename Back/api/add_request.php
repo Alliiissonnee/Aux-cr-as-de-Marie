@@ -4,7 +4,7 @@
 require __DIR__ . '/config.php';
 require __DIR__ . '/mailer.php';
 
-// Pour eviter le rejet du formulaire en cas de img trop lourde, message pour prevenir le client
+// Pour éviter le rejet du formulaire en cas d'image trop lourde, message pour prévenir la personne
 if (empty($_POST) && empty($_FILES) && ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
     http_response_code(400);
     die("La photo est trop lourde (10 Mo maximum).");

@@ -34,9 +34,25 @@ document.getElementById('acceptCookies').addEventListener('click', () => {
 });
 
 document.getElementById('refuseCookies').addEventListener('click', () => {
+    // A-t-elle accepté AVANT ? (on regarde avant d'écrire le nouveau choix)
+    const wasAccepted = localStorage.getItem('cookieConsent') === 'accepted';
+
     localStorage.setItem('cookieConsent', 'refused');
     cookieBanner.hidden = true;
+
+    if (wasAccepted) {
+        // On efface les cookies déposés par Google Analytics (leur nom commence par "_ga")
+        document.cookie.split('; ').forEach(cookie => {
+            const name = cookie.split('=')[0];
+            if (name.startsWith('_ga')) {
+                document.cookie = name + '=; Max-Age=0; path=/';
+            }
+        });
+        // On recharge la page : cette fois, Google Analytics ne sera plus chargé
+        location.reload();
+    }
 });
+
 
 // "Gérer les cookies" (dans le pied de page) : on réaffiche le bandeau pour changer d'avis
 document.getElementById('manageCookies').addEventListener('click', () => {

@@ -1,21 +1,21 @@
 <?php
-
+// Supprime une création et son image (réservé à l'admin)
 require __DIR__ . '/admin_check.php';
 require __DIR__ . '/config.php';
 
-$id = $_POST['id'];
+$id = (int) ($_POST['id'] ?? 0);
 
 $stmt = $pdo->prepare("SELECT image FROM cards WHERE id = :id");
 $stmt->execute(['id' => $id]);
-$ligne = $stmt->fetch();  
+$card = $stmt->fetch();  
 
-if ($ligne) {
+if ($card) {
     $stmt = $pdo->prepare("DELETE FROM cards WHERE id = :id");
     $stmt->execute(['id' => $id]);
- if (file_exists(__DIR__ . '/../uploads/' . $ligne['image'])) {
-        unlink (__DIR__ . '/../uploads/' . $ligne['image']);
+    if (file_exists(__DIR__ . '/../uploads/' . $card['image'])) {
+        unlink (__DIR__ . '/../uploads/' . $card['image']);
     }
-    echo "La card est bien supprimée";
+    echo "La création a bien été supprimée.";
 } else {
-    echo "La cards n'existe pas";
+    echo "Cette création n'existe pas.";
 }

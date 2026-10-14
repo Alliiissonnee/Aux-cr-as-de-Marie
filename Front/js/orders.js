@@ -8,7 +8,7 @@ fetch('api/session.php')
     });
 
 // Deconnexion de l'admin en cliquant sur le cadenas et retour à la page d'accueil
-const logoutButton = document.getElementById('deconnexion_admin');
+const logoutButton = document.getElementById('logoutButton');
 logoutButton.addEventListener('click', () => {
     fetch('api/logout.php')
         .then(() => {
@@ -30,6 +30,16 @@ function formatDate(text, withTime) {
     return day;
 }
 
+// Le texte de l'étiquette de livraison
+function shippingLabel(order) {
+    if (order.shipping_method === 'pickup') {
+        return 'Retrait sur place';
+    }
+    if (Number(order.shipping_cost) === 0) {
+        return 'Colissimo offert';
+    }
+    return `Colissimo (${escapeHtml(order.shipping_cost)} €)`;
+}
 
 fetch('api/orders.php')
     .then(response => response.json())
@@ -42,7 +52,7 @@ fetch('api/orders.php')
             <a href="mailto:${escapeHtml(order.email)}">${escapeHtml(order.email)}</a>
         </td>
         <td>
-            <strong class="shipping-${order.shipping_method}">${order.shipping_method === 'pickup' ? 'Retrait sur place' : `Colissimo (${escapeHtml(order.shipping_cost)} €)`}</strong><br>
+            <strong class="shipping-${order.shipping_method}">${shippingLabel(order)}</strong><br>
             ${escapeHtml(order.address)}<br>
             ${escapeHtml(order.postal_code)} ${escapeHtml(order.city)}<br>
             ${order.shipping_method === 'colissimo' ? `
@@ -122,7 +132,7 @@ ordersBody.addEventListener('submit', (event) => {
 // Quand l'admin clique sur "Où est le colis ?", on demande à La Poste (via notre serveur)
 ordersBody.addEventListener('click', (event) => {
     const button = event.target.closest('.btn-track');
-    if (!button) return; 
+    if (!button) return;
 
     const status = document.getElementById(`tracking-${button.dataset.id}`);
     status.textContent = 'Recherche en cours…';

@@ -1,12 +1,12 @@
 <?php
-
+// Change le statut d'une demande personnalisée (réservé à l'admin)
 require __DIR__ . '/admin_check.php';
 require __DIR__ . '/config.php';
 
-$id = $_POST['id'];
-$status = $_POST['status'];
+$id = (int) ($_POST['id'] ?? 0);
+$status = $_POST['status'] ?? '';
 
-// Verifie le statut de la demande de personnalisation
+// Vérifie le statut de la demande de personnalisation
 $allowedStatus = ['new', 'in_progress', 'done'];
 if (!in_array($status, $allowedStatus)) {
     http_response_code(400);

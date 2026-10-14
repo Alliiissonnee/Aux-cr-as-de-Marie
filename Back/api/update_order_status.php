@@ -3,10 +3,10 @@
 require __DIR__ . '/admin_check.php';
 require __DIR__ . '/config.php';
 
-$id = $_POST['id'];
-$status = $_POST['status'];
+$id = (int) ($_POST['id'] ?? 0);
+$status = $_POST['status'] ?? '';
 
-// Verifie le statut de la commande
+// Vérifie le statut de la commande
 $allowedStatus = ['pending', 'paid', 'shipped'];
 if (!in_array($status, $allowedStatus)) {
     http_response_code(400);

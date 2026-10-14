@@ -1,5 +1,5 @@
 <?php
-// Verifie que la commande a bien été payé sur stripe avant de la marquer payée
+// Vérifie que la commande a bien été payée sur Stripe avant de la marquer payée
 
 require __DIR__ . '/config.php';
 require '/var/www/vendor/autoload.php';

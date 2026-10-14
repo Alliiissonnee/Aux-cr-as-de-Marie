@@ -36,6 +36,15 @@ if ($okapiKey) {
         http_response_code(502);
         die(json_encode(['error' => "La Poste ne répond pas, réessayez plus tard."]));
     }
+    // Le code de réponse de La Poste : "HTTP/1.1 404 Not Found" → on garde le 2e mot → 404
+    $statusCode = (int) explode(' ', $http_response_header[0])[1];
+
+    if ($statusCode !== 200) {
+        // On ne renvoie pas le message technique de La Poste : il peut contenir des détails internes
+        http_response_code($statusCode === 404 ? 404 : 502);
+        die(json_encode(['error' => "Suivi indisponible pour ce colis."]));
+    }
+
     echo $json;
     exit;
 }

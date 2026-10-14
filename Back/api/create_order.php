@@ -20,7 +20,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     die("L'adresse email n'est pas valide.");
 }
 
-// Verifie le code postal
+// Vérifie le code postal
 if (!preg_match('/^[0-9]{5}$/', $postalCode)) {
     http_response_code(400);
     die("Le code postal n'est pas valide.");
