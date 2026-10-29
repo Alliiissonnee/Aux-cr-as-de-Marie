@@ -406,6 +406,20 @@ button:active {
   background-color: var(--pink-dark);
 }
 
+/* Le lien "Retour à l'accueil" : simple texte, comme les liens du footer */
+.login-card form a {
+  align-self: center; /* sinon le lien prend toute la largeur du formulaire */
+  padding: 4px 0;
+  color: #a8437f; /* même rose prune que le footer */
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+  text-decoration: none;
+}
+
+.login-card form a:hover {
+  color: #7a2e5c; /* prune plus foncé au survol, comme le footer */
+}
+
 .login-error, .modal-content .form-error {
   color: var(--red);
   font-family: var(--font-text);

@@ -68,6 +68,13 @@ services:
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
       # Clé de l'API Okapi de La Poste (suivi des colis). Vide = mode démo
       OKAPI_KEY: ${OKAPI_KEY:-}
+      # Connexion à la base de données, lue depuis le fichier .env
+      DB_HOST: ${DB_HOST:-mysql}
+      DB_NAME: ${DB_NAME:-auxcreasdemarie}
+      DB_USER: ${DB_USER:-}
+      DB_PASSWORD: ${DB_PASSWORD:-}
+
+
     depends_on:
       - mysql
       - mailpit

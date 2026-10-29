@@ -1,5 +1,6 @@
 <?php
-// Permet d'être réutilisé dans tous les fichiers où on a besoin d'être connecté en tant qu'admin
+// Permet d'être réutilisé dans tous les fichiers où on a besoin
+//  d'être connecté en tant qu'admin
 
 require __DIR__ . '/start_session.php';
 

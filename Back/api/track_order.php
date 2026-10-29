@@ -23,11 +23,11 @@ $okapiKey = getenv('OKAPI_KEY');
 
 // 1er chemin : on a une clé → on demande à la vraie API de La Poste
 if ($okapiKey) {
-    // La clé voyage dans l'en-tête de la demande (comme un badge d'accès)
+    // La clé voyage dans l'en-tête de la demande
     $context = stream_context_create([
         'http' => [
             'header' => "X-Okapi-Key: " . $okapiKey . "\r\nAccept: application/json\r\n",
-            'ignore_errors' => true, // on veut lire la réponse même si La Poste répond "erreur"
+            'ignore_errors' => true,
         ],
     ]);
     $json = file_get_contents('https://api.laposte.fr/suivi/v2/idships/' . urlencode($trackingNumber) . '?lang=fr_FR', false, $context);

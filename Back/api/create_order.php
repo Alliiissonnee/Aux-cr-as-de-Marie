@@ -91,8 +91,11 @@ $total += $shippingCost;
 // Transaction : les 2 tables sont remplies ensemble, ou pas du tout
 $pdo->beginTransaction();
 
-// 1. Le haut du ticket
-$stmt = $pdo->prepare("INSERT INTO orders (customer_name, email, address, postal_code, city, shipping_method, shipping_cost, total) VALUES (:customer_name, :email, :address, :postal_code, :city, :shipping_method, :shipping_cost, :total)");
+// Le haut du ticket
+$stmt = $pdo->prepare("INSERT INTO orders (customer_name, email, 
+address, postal_code, city, shipping_method, shipping_cost, total) 
+VALUES (:customer_name, :email, :address, :postal_code, :city, :shipping_method, :shipping_cost, :total)");
+
 $stmt->execute([
     'customer_name' => $customerName,
     'email' => $email,
@@ -108,7 +111,8 @@ $stmt->execute([
 $orderId = $pdo->lastInsertId();
 
 // Les lignes du ticket : une par création achetée
-$stmt = $pdo->prepare("INSERT INTO order_items (order_id, card_id, name, unit_price, quantity) VALUES (:order_id, :card_id, :name, :unit_price, :quantity)");
+$stmt = $pdo->prepare("INSERT INTO order_items (order_id, card_id, name, unit_price, quantity) 
+VALUES (:order_id, :card_id, :name, :unit_price, :quantity)");
 
 foreach ($orderItems as $orderItem) {
     $stmt->execute([

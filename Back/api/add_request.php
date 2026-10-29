@@ -119,11 +119,11 @@ $stmt->execute([
 ]);
 
 try {
-// Prévient Marie par email
+    // Prévient Marie par email
     $mail = createMailer();
     $mail->addAddress(getenv('MAIL_TO'));
     $mail->addReplyTo($email, $name);
-    $mail->Subject = 'Nouvelle demande personnalisée de ' .$name;
+    $mail->Subject = 'Nouvelle demande personnalisée de ' . $name;
     $mail->Body = "Une nouvelle demande vient d'arriver sur le site.\n\n"
         . "Nom : $name\n"
         . "Email : $email\n"
@@ -131,7 +131,7 @@ try {
         . "Date souhaitée : " . ($desiredDate ?? 'non précisée') . "\n"
         . "Budget : " . ($budget ?? 'non précisé') . "\n\n"
         . "Message :\n$message\n";
-// Joint la photo d'inspiration, si le client en a envoyé une
+    // Joint la photo d'inspiration, si le client en a envoyé une
     if ($photoName !== null) {
         $mail->addAttachment(__DIR__ . '/../uploads/' . $photoName);
     }

@@ -3,7 +3,11 @@ fetch('api/cards.php')
   .then(data => {
     const container = document.querySelector('.cards-container');
     const cardsHTML = data.map(card => `
-  <section class="card" data-id="${card.id}" data-image="${escapeHtml(card.image)}" data-name="${escapeHtml(card.name)}" data-category="${escapeHtml(card.category)}" data-price="${card.price}" >
+
+  <section class="card" data-id="${card.id}" data-image="${escapeHtml(card.image)}" 
+  data-name="${escapeHtml(card.name)}" data-category="${escapeHtml(card.category)}" 
+  data-price="${card.price}" >
+
     <img src="uploads/${escapeHtml(card.image)}" alt="${escapeHtml(card.name)}">
     <article class="card-content">
       <h3>${escapeHtml(card.name)}</h3>
